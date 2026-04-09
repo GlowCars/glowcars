@@ -5,10 +5,12 @@ import Header from '../common/header.js'
 import Footer from '../common/footer.js';
 import vehiculoIcono from '../images/vehiculo.avif';
 import axios from 'axios';
+import { CircleCheckBig } from 'lucide-react';
 
 const Perfil = () => {
     const navigate = useNavigate();
     const [showModal, setShowModal] = useState(false);
+    const [showSuccessModal, setShowSuccessModal] = useState(false);
     const [showErrorModal, setShowErrorModal] = useState(false);
     const [vehiculoSeleccionado, setVehiculoSeleccionado] = useState(null);
 
@@ -28,6 +30,7 @@ const Perfil = () => {
             await axios.delete(`http://localhost:5000/deleteCar/${vehiculoSeleccionado.id_vehiculo}`);
             setVehiculos(prev => prev.filter(v => v.id_vehiculo !== vehiculoSeleccionado.id_vehiculo));
             setShowModal(false); // Cerramos el modal
+            setShowSuccessModal(true); 
         } catch (error) {
             setShowModal(false);
             setShowErrorModal(true);
@@ -100,7 +103,7 @@ const Perfil = () => {
                                                 size={18}
                                                 style={iconActionStyle}
                                                 // Enviamos el objeto 'v' (el vehículo actual) a través del estado de navegación
-                                                onClick={() => navigate('/modificar-vehiculo', { state: { vehiculo: v } })}
+                                                onClick={() => navigate('/modificarVehiculo', { state: { vehiculo: v } })}
                                             />
                                             <Trash2 size={18} style={iconActionStyle} onClick={() => abrirConfirmacion(v)} />
                                         </td>
@@ -110,7 +113,7 @@ const Perfil = () => {
                         </table>
 
                         <div style={addCarContainer}>
-                            <button style={btnAddCarStyle} onClick={() => navigate('/alta-vehiculo')}>
+                            <button style={btnAddCarStyle} onClick={() => navigate('/altaVehiculo')}>
                                 Añadir vehículo
                             </button>
                         </div>
@@ -153,7 +156,7 @@ const Perfil = () => {
                                             <Pencil
                                                 size={18}
                                                 style={iconActionStyle}
-                                                onClick={() => navigate('/modificar-cita', { state: { cita: c } })}
+                                                onClick={() => navigate('/modificarCita', { state: { cita: c } })}
                                             />
                                         </td>
                                     </tr>
@@ -191,6 +194,24 @@ const Perfil = () => {
                     </div>
                 </div>
             )}
+            {showSuccessModal && (
+                <div style={modalOverlayStyle}>
+                    <div style={modalContentStyle}>
+                        <CircleCheckBig size={48} color="#8be28b" style={{ marginBottom: '15px' }} />
+                        <h3 style={{ color: '#1A1A1A' }}>Vehículo eliminado</h3>
+                        <p>El vehículo ha sido eliminado correctamente.</p>
+
+                        <div style={modalButtonsStyle}>
+                            <button
+                                onClick={() => setShowSuccessModal(false)}
+                                style={btnAceptarStyle}
+                            >
+                                Aceptar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
             {showErrorModal && (
                 <div style={modalOverlayStyle}>
                     <div style={modalContentStyle}>
@@ -214,7 +235,7 @@ const Perfil = () => {
 
 // --- ESTILOS ---
 const containerPageStyle = {
-    display: 'flex', flexDirection: 'column', minHeight: '100vh', fontFamily: 'Arial, sans-serif',
+    display: 'flex', flexDirection: 'column', minHeight: '100vh', fontFamily: 'Poppins',
     backgroundColor: '#fff'
 };
 const mainContentStyle = { flex: 1, display: 'flex', justifyContent: 'center', padding: '40px 20px' };
@@ -277,6 +298,13 @@ const btnEliminarStyle = {
     backgroundColor: '#ff4d4d', // Rojo para advertir peligro
     color: 'white',
     fontWeight: 'bold',
+    cursor: 'pointer'
+};
+const btnAceptarStyle = {
+    padding: '10px 20px',
+    borderRadius: '10px',
+    border: '1px solid #ccc',
+    backgroundColor: '#eee',
     cursor: 'pointer'
 };
 export default Perfil;

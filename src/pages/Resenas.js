@@ -4,6 +4,7 @@ import { Star, PlusCircle } from 'lucide-react';
 import Header from '../common/header.js'
 import Footer from '../common/footer.js';
 import axios from 'axios';
+import { Pencil } from 'lucide-react';
 
 const Resenas = () => {
     const navigate = useNavigate();
@@ -12,9 +13,13 @@ const Resenas = () => {
     const [resenas, setResenas] = useState([]);
 
     useEffect(() => {
-        const data = sessionStorage.getItem('usuarioGlowcars');
+        const data = JSON.parse(sessionStorage.getItem('usuarioGlowcars'));
         if (data) {
-            setUser(JSON.parse(data));
+            setUser({
+                id: Number(data.id),
+                nombre: data.nombre,
+                apellidos: data.apellidos
+            });
             setIsLoggedIn(true);
         }
         fetchResenas();
@@ -28,6 +33,8 @@ const Resenas = () => {
 
             // Mapeamos los datos correctamente
             const datosFormateados = resResenas.data.map(v => ({
+                id_usuario: v.id_usuario,
+                id_resena: v.id_resena,
                 calificacion: v.calificacion,
                 texto: v.comentario,
                 nombre: `${v.nombre} ${v.apellidos || ''}`.trim(),
@@ -36,7 +43,7 @@ const Resenas = () => {
                 // Usamos encadenamiento opcional (?.) para evitar errores si no hay nombre/apellido
                 avatar: (v.nombre?.[0] || 'U').toUpperCase() + (v.apellidos?.[0] || '').toUpperCase()
             }));
-            
+
             setResenas(datosFormateados);
 
         } catch (error) {
@@ -70,7 +77,7 @@ const Resenas = () => {
                     <div style={actionSection}>
                         {isLoggedIn ? (
                             /* Botón Verde para cuando SÍ está logueado */
-                            <button style={btnAnadirResenaStyle} onClick={() => navigate("/NewResena")}>
+                            <button style={btnAnadirResenaStyle} onClick={() => navigate("/newResena")}>
                                 <PlusCircle size={20} /> Añadir reseña
                             </button>
                         ) : (
@@ -98,6 +105,16 @@ const Resenas = () => {
                                         <div style={userName}>{r.nombre}</div>
                                         <div style={userDate}>{r.fecha}</div>
                                     </div>
+                                    {user && user.id === r.id_usuario && (
+                                        <div style={userEdit}>
+                                            <Pencil
+                                                size={18}
+                                                style={iconActionStyle}
+                                                // Enviamos el objeto 'v' (el vehículo actual) a través del estado de navegación
+                                                onClick={() => navigate('/modificarResena', { state: { resena: r } })}
+                                            />
+                                        </div>
+                                    )}
                                 </div>
                             </div>
                         ))}
@@ -117,6 +134,7 @@ const containerPageStyle = { display: 'flex', flexDirection: 'column', minHeight
 const mainContentStyle = { flex: 1, padding: '40px 20px', display: 'flex', justifyContent: 'center' };
 const contentWrapper = { maxWidth: '1000px', width: '100%' };
 const actionSection = { display: 'flex', justifyContent: 'center', marginBottom: '30px' };
+const iconActionStyle = { cursor: 'pointer', color: '#333' };
 
 // ESTILO BOTÓN VERDE (Logueado)
 const btnAnadirResenaStyle = {
@@ -151,13 +169,13 @@ const btnRegistrateOpinarStyle = {
 const resenasGrid = { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' };
 const cardStyle = {
     border: '1px solid #eee', borderRadius: '15px', padding: '20px',
-    boxShadow: '0 2px 8px rgba(0,0,0,0.05)'
+    boxShadow: '0 2px 8px rgba(0,0,0,0.05)',display: 'inline-grid'
 };
-const starsRow = { display: 'flex', gap: '2px', marginBottom: '10px' };
-const cardHeader = { margin: '0 0 5px 0', fontSize: '1rem', color: '#333' };
+const starsRow = { display: 'flex', gap: '2px', height: '20px' };
+const cardHeader = { margin: '0 0 0 0', fontSize: '1rem', color: '#333',height: '18px'};
 const cardText = {
     fontSize: '0.95rem', color: '#555', fontStyle: 'Montserrat',
-    marginBottom: '15px'
+    marginBottom: '15px', textAlign: 'justify'
 };
 const userRow = { display: 'flex', alignItems: 'center', gap: '12px' };
 const avatarCircle = {
@@ -166,5 +184,6 @@ const avatarCircle = {
 };
 const userName = { fontWeight: 'bold', fontSize: '0.9rem' };
 const userDate = { fontSize: '0.8rem', color: '#999', textAlign: 'left' };
+const userEdit = { fontSize: '0.8rem', color: '#999', textAlign: 'left', marginLeft: 'auto' };
 
 export default Resenas;

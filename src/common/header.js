@@ -19,11 +19,11 @@ const Header = () => {
         } else {
             switch (location.pathname) {
                 case '/perfil':
-                case '/alta-vehiculo':
-                case '/modificar-vehiculo':
+                case '/altaVehiculo':
+                case '/modificarVehiculo':
                 case '/citas':
-                case '/modificar-cita':
-                case '/nueva-resena':
+                case '/modificarCita':
+                case '/newResena':
                     navigate('/login');
                     break;
 

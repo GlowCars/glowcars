@@ -14,14 +14,12 @@ import AltaVehiculo from './pages/AltaVehiculo';
 import ModificarVehiculo from './pages/ModificarVehiculo';
 import ModificarCita from './pages/ModificarCita';
 import NewResena from './pages/NewResena';
+import ModificarResena from './pages/ModificarResena';
 
-/**
- * 1. COMPONENTE DE PROTECCIÓN
- * Verifica si existe el usuario en sessionStorage (o localStorage)
- */
+{/*  --- COMPONENTE DE PROTECCIÓN Verifica si existe el usuario en sessionStorage --- */ }
 const ProtectedRoute = ({ children }) => {
-  const user = sessionStorage.getItem('usuarioGlowcars'); 
-  
+  const user = sessionStorage.getItem('usuarioGlowcars');
+
   if (!user) {
     // Si no está logueado, lo mandamos al login
     return <Navigate to="/login" replace />;
@@ -45,29 +43,33 @@ function App() {
           <Route path="/registro" element={<Registro />} />
 
           {/* --- RUTAS PRIVADAS (Requieren estar logueado) --- */}
-          <Route 
-            path="/perfil" 
-            element={<ProtectedRoute><Perfil /></ProtectedRoute>} 
+          <Route
+            path="/perfil"
+            element={<ProtectedRoute><Perfil /></ProtectedRoute>}
           />
-          <Route 
-            path="/alta-vehiculo" 
-            element={<ProtectedRoute><AltaVehiculo /></ProtectedRoute>} 
+          <Route
+            path="/altaVehiculo"
+            element={<ProtectedRoute><AltaVehiculo /></ProtectedRoute>}
           />
-          <Route 
-            path="/modificar-vehiculo" 
-            element={<ProtectedRoute><ModificarVehiculo /></ProtectedRoute>} 
+          <Route
+            path="/modificarVehiculo"
+            element={<ProtectedRoute><ModificarVehiculo /></ProtectedRoute>}
           />
-          <Route 
-            path="/citas" 
-            element={<ProtectedRoute><Citas /></ProtectedRoute>} 
+          <Route
+            path="/citas"
+            element={<ProtectedRoute><Citas /></ProtectedRoute>}
           />
-          <Route 
-            path="/modificar-cita" 
-            element={<ProtectedRoute><ModificarCita /></ProtectedRoute>} 
+          <Route
+            path="/modificarCita"
+            element={<ProtectedRoute><ModificarCita /></ProtectedRoute>}
           />
-          <Route 
-            path="/NewResena" 
-            element={<ProtectedRoute><NewResena /></ProtectedRoute>} 
+          <Route
+            path="/newResena"
+            element={<ProtectedRoute><NewResena /></ProtectedRoute>}
+          />
+          <Route
+            path="/modificarResena"
+            element={<ProtectedRoute><ModificarResena /></ProtectedRoute>}
           />
 
           {/* Comodín: si la ruta no existe, a Home */}

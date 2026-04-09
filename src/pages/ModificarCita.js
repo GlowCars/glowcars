@@ -11,7 +11,7 @@ const ModifcarCitas = () => {
     const location = useLocation();
     const citaData = location.state?.cita;
     const [user, setUser] = useState({ id: '', nombre: 'Usuario', apellidos: '' });
-    const [showModal, setShowModal] = useState(false);    
+    const [showModal, setShowModal] = useState(false);
     const [vehiculos, setVehiculos] = useState([]);
 
     const formatoFecha = (fechaGMT) => {
@@ -48,7 +48,7 @@ const ModifcarCitas = () => {
                 nombre: sessionParsed.nombre,
                 apellidos: sessionParsed.apellidos
             });
-             fetchDatos(sessionParsed.id);
+            fetchDatos(sessionParsed.id);
         }
 
         if (!citaData) {
@@ -59,7 +59,7 @@ const ModifcarCitas = () => {
     const handleChange = (e) => {
         setFormCita({ ...formCita, [e.target.name]: e.target.value });
     };
-   // --- FUNCIÓN DE BÚSQUEDA DE DATOS ---
+    // --- FUNCIÓN DE BÚSQUEDA DE DATOS ---
     const fetchDatos = async (idUser) => {
         try {
             const urlVehiculos = 'http://localhost:5000/vehiculos';
@@ -100,17 +100,20 @@ const ModifcarCitas = () => {
 
     return (
         <div style={containerPageStyle}>
-            <Header />
+            {/* --- CABECERA --- */}
+            <Header></Header>
+
 
             <main style={mainContentStyle}>
                 <div style={formWrapper}>
                     <div style={userHeader}>
                         <img src={cliente} alt="cliente" style={{ width: '45px', height: '45px', borderRadius: '50%' }} />
-                        <span style={userNameStyle}>{user.nombre} {user.apellidos}</span>
+                        <h2 style={formTitleStyle}>Modificar Cita</h2>
                     </div>
 
+                    {/* --- FORMULARIO --- */}
                     <form style={formStyle} onSubmit={handleUpdate}>
-                        
+
                         <div style={inputGroup}>
                             <label style={labelStyle}>Vehículo</label>
                             <input
@@ -173,9 +176,11 @@ const ModifcarCitas = () => {
                             </select>
                         </div>
 
-                        <button type="submit" style={btnSolicitarStyle}>
-                            Guardar Cambios
-                        </button>
+                        <div>
+                            <button type="submit" style={btnSolicitarStyle}>
+                                Guardar Cambios
+                            </button>
+                        </div>
                     </form>
                 </div>
             </main>
@@ -199,6 +204,10 @@ const ModifcarCitas = () => {
 };
 
 // --- ESTILOS ---
+const colors = {
+    header: '#263a45', brand: '#8be28b', formTitle: '#333', inputBorder: '#bbb', inputBg: '#eee',
+    btnRegistro: '#c7ffc7'
+};
 const modalOverlayStyle = {
     position: 'fixed', top: 0, left: 0, width: '100%', height: '100%',
     backgroundColor: 'rgba(0, 0, 0, 0.5)', display: 'flex', justifyContent: 'center', alignItems: 'center', zIndex: 2000
@@ -208,17 +217,17 @@ const modalContentStyle = {
 };
 const modalButtonsStyle = { display: 'flex', justifyContent: 'center', marginTop: '20px' };
 const btnAceptarStyle = { padding: '10px 20px', borderRadius: '10px', border: '1px solid #ccc', backgroundColor: '#eee', cursor: 'pointer' };
-const containerPageStyle = { display: 'flex', flexDirection: 'column', minHeight: '100vh', fontFamily: 'Arial, sans-serif' };
+const containerPageStyle = { display: 'flex', flexDirection: 'column', minHeight: '100vh', fontFamily: 'Poppins', backgroundColor: '#fff' };
 const mainContentStyle = { flex: 1, display: 'flex', justifyContent: 'center', padding: '40px 20px' };
 const formWrapper = { width: '100%', maxWidth: '400px', textAlign: 'center' };
 const userHeader = { display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px', marginBottom: '30px' };
-const userNameStyle = { fontSize: '1.2rem', color: '#666' };
-const formStyle = { display: 'flex', flexDirection: 'column', gap: '20px' };
+const formTitleStyle = { margin: 0, fontSize: '1.4rem', color: colors.formTitle, fontWeight: 'bold', fontFamily: 'Arial, sans-serif' };
+const formStyle = { fontFamily: 'Arial, sans-serif', display: 'flex', flexDirection: 'column', gap: '20px' };
 const inputGroup = { display: 'flex', flexDirection: 'column', gap: '5px', textAlign: 'left' };
 const labelStyle = { color: '#1A1A1A ', fontSize: '1.1rem' };
 const inputStyle = { padding: '12px', border: '1px solid #ccc', borderRadius: '15px', fontSize: '1rem', color: '#1A1A1A ', backgroundColor: 'white' };
 const btnSolicitarStyle = {
-    backgroundColor: '#c7ffc7', border: '1px solid #999', padding: '12px', borderRadius: '20px', fontSize: '1.1rem',
+    backgroundColor: '#c7ffc7', border: '1px solid #999', padding: '14px', borderRadius: '20px', fontSize: '1.1rem',
     cursor: 'pointer', marginTop: '10px', boxShadow: '0px 2px 4px rgba(0,0,0,0.1)'
 };
 

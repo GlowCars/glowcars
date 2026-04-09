@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { ThumbsUp, Star, Send } from 'lucide-react';
 import Header from '../common/header.js'
 import Footer from '../common/footer.js';
@@ -7,58 +7,62 @@ import axios from 'axios';
 import { CircleCheckBig } from 'lucide-react';
 
 
-const NewResena = () => {
+const ModificarResena = () => {
     const navigate = useNavigate();
+    const location = useLocation();
     const [user, setUser] = useState({ nombre: 'Usuario', email: '' });
     const [showModal, setShowModal] = useState(false);
+    const resenaData = location.state?.resena;
 
-    // Estado para el formulario
-    const [resena, setResena] = useState({
-        calificación: 5,
-        titulo: '',
-        comentario: ''
+    // 1. ESTADOS: Inicializamos con los datos de la reseña recibida
+    const [resenaUpdate, setResenaUpdate] = useState({
+        calificacion: resenaData?.calificacion,
+        titulo: resenaData?.titulo,
+        comentario: resenaData?.texto,
+        id_resena: resenaData?.id_resena
     });
 
     useEffect(() => {
         const session = sessionStorage.getItem('usuarioGlowcars');
-        if (session) {
-            setUser(JSON.parse(session));
-        } else {
-            navigate('/login');
+        const sessionParsed = JSON.parse(session)
+        setUser({
+            id: sessionParsed.id,
+            nombre: sessionParsed.nombre,
+            apellidos: sessionParsed.apellidos
+        });
+        if (!resenaData) {
+            navigate('/resenas');
         }
-    }, [navigate]);
+    }, [navigate, resenaData]);
 
-    const handleChange = (e) => {
-        setResena({ ...resena, [e.target.name]: e.target.value });
+    const handleCambioResena = (e) => {
+        setResenaUpdate({ ...resenaUpdate, [e.target.name]: e.target.value });
     };
 
     const handleSetRating = (rating) => {
-        setResena({ ...resena, calificacion: rating });
+        setResenaUpdate({ ...resenaUpdate, calificacion: rating });
     };
 
-    const handleSubmit = async (e) => {
+    // 3. FUNCIÓN DE ENVÍO (UPDATE)
+    const handleRegistro = async (e) => {
         e.preventDefault();
+
         try {
-            const resenaCompleta = {
-                id_usuario: user.id,
-                calificacion: resena.calificacion,
-                comentario: resena.comentario,
-                titulo: resena.titulo,
-                fecha: new Date().toISOString()
-            };
-
-            const res = await axios.post('http://localhost:5000/createResena', resenaCompleta);
-
+            const urlUpdate = `http://localhost:5000/updateResena/${resenaUpdate.id_resena}`;
+            const calificacion = resenaUpdate.calificacion;
+            const titulo = resenaUpdate.titulo;
+            const comentario = resenaUpdate.comentario;
+            const id_resena = resenaUpdate.id;
+            const res = await axios.put(urlUpdate, { id_resena, calificacion, titulo, comentario });
             if (res.status === 200 || res.status === 201) {
                 setShowModal(true);
             }
 
         } catch (error) {
-            console.error("Error al enviar reseña:", error);
-            alert("No se pudo enviar la reseña.");
+            console.error("Error al modificar:", error);
+            alert("No se pudieron guardar los cambios.");
         }
     };
-
 
     const handleAccept = async (e) => {
         setShowModal(false);
@@ -78,7 +82,7 @@ const NewResena = () => {
                         <h2 style={sectionTitle}>Deja tu opinión</h2>
                     </div>
 
-                    <form onSubmit={handleSubmit} style={formStyle}>
+                    <form onSubmit={handleRegistro} style={formStyle}>
                         <div style={inputGroupStyle}>
                             <label style={labelStyle}>Calificación</label>
                             <div style={starsContainer}>
@@ -87,8 +91,8 @@ const NewResena = () => {
                                         key={num}
                                         size={30}
                                         onClick={() => handleSetRating(num)}
-                                        fill={num <= resena.calificacion ? "#ffc107" : "none"}
-                                        color={num <= resena.calificacion ? "#ffc107" : "#ccc"}
+                                        fill={num <= resenaUpdate.calificacion ? "#ffc107" : "none"}
+                                        color={num <= resenaUpdate.calificacion ? "#ffc107" : "#ccc"}
                                         style={{ cursor: 'pointer', transition: '0.2s' }}
                                     />
                                 ))}
@@ -97,20 +101,22 @@ const NewResena = () => {
 
                         <div style={inputGroupStyle}>
                             <label style={labelStyle}>Titulo</label>
-                            <input type="text" name="titulo" placeholder="Titulo"
-                                onChange={handleChange} style={inputStyle} required />
+                            <input type="text" name="titulo" placeholder="Titulo" 
+                                value={resenaUpdate.titulo}
+                                onChange={handleCambioResena} style={inputStyle} required />
                             <label style={labelStyle}>Comentario</label>
                             <textarea
                                 name="comentario"
+                                value={resenaUpdate.comentario}
                                 placeholder="Cuéntanos tu experiencia en Glowcars..."
                                 style={textareaStyle}
-                                onChange={handleChange}
+                                onChange={handleCambioResena}
                                 required
                             />
                         </div>
 
                         <button type="submit" style={btnSubmitStyle}>
-                            <Send size={18} /> Publicar reseña
+                            <Send size={18} /> Modificar reseña
                         </button>
                     </form>
                 </div>
@@ -123,8 +129,8 @@ const NewResena = () => {
                 <div style={modalOverlayStyle}>
                     <div style={modalContentStyle}>
                         <CircleCheckBig color="#8be28b" size={60} />
-                        <h3 style={{ color: '#1A1A1A' }}>Reseña guardada</h3>
-                        <p>¡Gracias por tu reseña!</p>
+                        <h3 style={{ color: '#1A1A1A' }}>Reseña modificada</h3>
+                        <p>Reseña modificada correctamente.</p>
 
                         <div style={modalButtonsStyle}>
                             <button
@@ -208,4 +214,4 @@ const btnAceptarStyle = {
     backgroundColor: '#eee',
     cursor: 'pointer'
 };
-export default NewResena;
+export default ModificarResena;

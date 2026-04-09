@@ -42,7 +42,7 @@ function Login() {
       sessionStorage.clear();
       sessionStorage.setItem('usuarioGlowcars', JSON.stringify(datosUsuario));
 
-      setInfo({ texto: "¡Usuario reconocido! Entrando en tu perfil...", color: 'green' });
+      setInfo({ texto: "¡Usuario identificado! Entrando en su perfil...", color: 'green' });
 
       // 4. Redirigimos a /perfil 
       setTimeout(() => navigate('/perfil'), 1000);

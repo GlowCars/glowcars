@@ -27,7 +27,7 @@ function Home() {
         <div style={flexLayout}>
           <div style={textContainer}>
             {/* Título dinámico para que sepa dónde está */}
-            <h2 style={{ color: '#263a45', marginBottom: '20px' }}>Bienvenidos a Glowcars</h2>
+            <h2 style={{ color: '#0A3A47', marginBottom: '20px' }}>Bienvenidos a Glowcars</h2>
             <p style={paragraphStyle}>
               Somos un taller que ofrece el servicio que necesite usted para
               su coche, ya sea un mantenimiento, una puesta a punto o

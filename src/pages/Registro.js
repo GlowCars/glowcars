@@ -117,7 +117,12 @@ const Registro = () => {
                         </div>
                         <div style={inputGroupStyle}>
                             <label style={labelStyle}>Teléfono</label>
-                            <input type="tel" name="telefono" placeholder="Teléfono" style={inputStyle} onChange={handleCambioCliente} required />
+                            <input type="number" name="telefono" placeholder="Teléfono" style={inputStyle} onChange={handleCambioCliente} required
+                                onInput={(e) => {
+                                    if (e.target.value.length > 9) {
+                                        e.target.value = e.target.value.slice(0, 9);
+                                    }
+                                }} />
                         </div>
                         <div style={inputGroupStyle}>
                             <label style={labelStyle}>Email</label>
@@ -165,7 +170,12 @@ const Registro = () => {
                         </div>
                         <div style={inputGroupStyle}>
                             <label style={labelStyle}>Año</label>
-                            <input type="text" name="anio" placeholder="Año" style={inputStyle} onChange={handleCambioVehiculo} required />
+                            <input type="number" name="anio" placeholder="Año" style={inputStyle} onChange={handleCambioVehiculo} required
+                                onInput={(e) => {
+                                    if (e.target.value.length > 4) {
+                                        e.target.value = e.target.value.slice(0, 4);
+                                    }
+                                }} />
                         </div>
                         <div style={inputGroupStyle}>
                             <label style={labelStyle}>Nº de bastidor</label>
