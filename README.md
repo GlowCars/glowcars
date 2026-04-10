@@ -69,9 +69,9 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
 
-Para arrancar la parte back lñanzamos en un terminal: PS C:\Users\jess_\Desktop\DAM\DAM 2º año\Proyecto integrado\desarrollo> python app.py
+Para arrancar la parte back lanzamos en un terminal: PS C:\Users\jess_\Desktop\DAM\DAM 2º año\Proyecto integrado\desarrollo> python app.py
 
-Para arrancar react usamos: PS C:\Users\jess_\Desktop\DAM\DAM 2º año\Proyecto integrado\desarrollo> cd glowcars >> npm start
+Para arrancar React usamos: PS C:\Users\jess_\Desktop\DAM\DAM 2º año\Proyecto integrado\desarrollo> cd glowcars >> npm start
 
-Para la BBDD: arracnamos XAMP: Apache y MySQL: Admin
+Para la BBDD: arracnamos XAMP: Apache y MySQL: Admin (phpMyAdmin)
 

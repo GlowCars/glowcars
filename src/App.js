@@ -30,7 +30,7 @@ const ProtectedRoute = ({ children }) => {
 
 function App() {
   return (
-    <Router>
+    <Router future={{ v7_relativeSplatPath: true, v7_startTransition: true }}>
       <div className="App">
         <Routes>
           {/* --- RUTAS PÚBLICAS (Cualquiera puede entrar) --- */}

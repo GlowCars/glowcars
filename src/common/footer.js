@@ -12,6 +12,9 @@ const Footer = () => {
             <div style={socialIcons}>
                 <Twitter size={20} /> <Instagram size={20} /> <Facebook size={20} />
             </div>
+            <div style={copyrightStyle}>
+                <p>© 2026 GLOWCARS. Todos los derechos reservados.</p>
+            </div>
         </footer >
     );
 };
@@ -24,5 +27,14 @@ const footerItem = {
     gap: '5px', fontFamily: 'Poppins', color: '#FFFFFF'
 };
 const socialIcons = { color: '#7CFFB2', display: 'flex', justifyContent: 'center', gap: '15px', marginTop: '10px' };
+const copyrightStyle = {
+    textAlign: 'center',
+    fontSize: '0.9rem',
+    opacity: 0.8,
+    marginTop: '15px',
+    borderTop: '1px solid rgba(255,255,255,0.1)',
+    paddingTop: '10px',
+    color: '#FFFFFF'
+};
 
 export default Footer; 

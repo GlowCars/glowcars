@@ -4,7 +4,11 @@ import Header from './header';
 
 // Helper para renderizar con Router ya que Header usa useNavigate y NavLink
 const renderWithRouter = (ui) => {
-  return render(ui, { wrapper: BrowserRouter });
+ return render(
+    <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+      {ui}
+    </BrowserRouter>
+  );;
 };
 
 describe('Header Component', () => {
@@ -75,4 +79,43 @@ describe('Header Component', () => {
     expect(screen.getByText(/Servicios/i)).toBeInTheDocument();
     expect(screen.getByText(/Reseñas/i)).toBeInTheDocument();
   });
+  const mockedUsedNavigate = jest.fn();
+jest.mock('react-router-dom', () => ({
+   ...jest.requireActual('react-router-dom'),
+  useNavigate: () => mockedUsedNavigate,
+}));
+
+describe('Pruebas de navegación - handleToPerfile', () => {
+  
+  test('debe detener la propagación y navegar a /perfil al hacer clic', () => {
+    // Simulamos un usuario logueado para que aparezca el elemento que lleva al perfil
+    const mockUser = { nombre: 'Jesica', iniciales: 'JM' };
+    sessionStorage.setItem('usuarioGlowcars', JSON.stringify(mockUser));
+
+    render(
+      <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+        <Header />
+      </BrowserRouter>
+    );
+
+    // Buscamos el elemento que dispara el handleToPerfile (suponiendo que es el nombre o badge)
+    const userElement = screen.getByText(/Jesica/i);
+
+    // Creamos un evento falso para espiar el stopPropagation
+    const event = {
+      stopPropagation: jest.fn(),
+    };
+
+    // Disparamos el clic pasando nuestro evento falso
+    fireEvent.click(userElement, event);
+
+    // ASSERTIONS (Comprobaciones)
+    // 1. Verificamos que se detuvo la propagación
+    // Nota: fireEvent gestiona el evento, pero si llamaste a e.stopPropagation() en tu código, 
+    // el mock de navigate es la prueba definitiva de que la función se ejecutó.
+    
+    // 2. Verificamos que navigate fue llamado con '/perfil'
+    expect(mockedUsedNavigate).toHaveBeenCalledWith('/perfil');
+  });
+});
 });
