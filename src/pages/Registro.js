@@ -11,7 +11,7 @@ const Registro = () => {
     const navigate = useNavigate();
     const [showPassword, setShowPassword] = useState(false);
 
-    // 1. ESTADOS PARA CAPTURAR LOS DATOS
+    // ESTADOS PARA CAPTURAR LOS DATOS
     const [datosCliente, setDatosCliente] = useState({
         nombre: '', apellidos: '', telefono: '', email: '', password: ''
     });
@@ -20,7 +20,7 @@ const Registro = () => {
         matricula: '', marca: '', modelo: '', anio: '', bastidor: ''
     });
 
-    // 2. FUNCIONES PARA ACTUALIZAR LOS CAMPOS
+    // FUNCIONES PARA ACTUALIZAR LOS CAMPOS
     const handleCambioCliente = (e) => {
         setDatosCliente({ ...datosCliente, [e.target.name]: e.target.value });
     };
@@ -29,7 +29,7 @@ const Registro = () => {
         setDatosVehiculo({ ...datosVehiculo, [e.target.name]: e.target.value });
     };
 
-    // 3. FUNCIÓN DE ENVÍO FINAL Y GUARDADO DE SESIÓN
+    // FUNCIÓN DE ENVÍO FINAL Y GUARDADO DE SESIÓN
     const handleRegistro = async (e) => {
         e.preventDefault();
 
@@ -79,11 +79,10 @@ const Registro = () => {
                     token: respuesta.data.token || 'fake-token-123' // Guardamos el token si el backend lo da
                 };
 
-                // 3. GUARDAMOS EN SESSION STORAGE
+                // GUARDAMOS EN SESSION STORAGE
                 // Importante: Convertir a String porque el storage no acepta objetos directamente
                 sessionStorage.setItem('usuarioGlowcars', JSON.stringify(datosUsuario));
             }
-            // Al estar logueado, lo mandamos directo al perfil
             navigate('/perfil');
 
         } catch (error) {
@@ -150,6 +149,9 @@ const Registro = () => {
                         </div>
                     </div>
 
+                    {/* LA RAYA VERTICAL */}
+                    <div style={verticalLineStyle}></div>
+
                     {/* SECCIÓN VEHÍCULO */}
                     <div style={formSideStyle}>
                         <div style={formHeaderStyle}>
@@ -199,24 +201,24 @@ const Registro = () => {
 // --- ESTILOS ---
 const eyeButtonStyle = {
     position: 'absolute', right: '15px', top: '50%', transform: 'translateY(-50%)',
-    background: 'none', border: 'none', cursor: 'pointer', color: '#666'
+    background: 'none', border: 'none', cursor: 'pointer', color: '#A7B1B7'
 };
 const colors = {
-    header: '#263a45', brand: '#8be28b', formTitle: '#333', inputBorder: '#bbb', inputBg: '#eee',
-    btnRegistro: '#c7ffc7'
+    header: '#0A3A47', brand: '#7CFFB2', formTitle: '#1A1A1A', inputBorder: '#A7B1B7', inputBg: '#FFFFFF',
+    btnRegistro: '#7CFFB2'
 };
 const containerPageStyle = {
-    display: 'flex', flexDirection: 'column', minHeight: '100vh', fontFamily: 'Arial, sans-serif',
-    backgroundColor: '#fff'
+    display: 'flex', flexDirection: 'column', minHeight: '100vh', fontFamily: 'Poppins',
+    backgroundColor: '#FFFFFF'
 };
 const mainContentStyle = { flex: 1, padding: '20px', display: 'flex', justifyContent: 'center', alignItems: 'center' };
 const gridRegistroStyle = {
-    display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '50px', maxWidth: '1000px', width: '100%',
+    display: 'grid', gridTemplateColumns: '1fr 1px 1fr', gap: '50px', maxWidth: '1000px', width: '100%',
     alignItems: 'start', margin: '0 auto'
 };
-const formSideStyle = { display: 'flex', flexDirection: 'column', gap: '10px', alignItems: 'center' };
+const formSideStyle = { display: 'flex', flexDirection: 'column', gap: '10px', alignItems: 'center', fontFamily: 'Arial, sans-serif' };
 const formHeaderStyle = { display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '15px' };
-const formTitleStyle = { margin: 0, fontSize: '1.4rem', color: colors.formTitle, fontWeight: 'bold' };
+const formTitleStyle = { margin: 0, fontSize: '1.4rem', color: colors.formTitle, fontWeight: 'bold', color: '#0A3A47' };
 const inputGroupStyle = { display: 'flex', flexDirection: 'column', gap: '5px', alignItems: 'flex-start', width: '100%' };
 const labelStyle = { fontSize: '0.9rem', color: colors.formTitle, fontWeight: 'bold' };
 const inputStyle = {
@@ -225,8 +227,14 @@ const inputStyle = {
 };
 const btnCenteringStyle = { gridColumn: '1 / -1', display: 'flex', justifyContent: 'center', marginTop: '30px' };
 const btnRegistroStyle = {
-    backgroundColor: colors.btnRegistro, color: colors.formTitle, border: '1px solid #999', padding: '10px 30px',
+    backgroundColor: colors.btnRegistro, color: colors.formTitle, border: '1px solid #A7B1B7', padding: '10px 30px',
     borderRadius: '20px', fontSize: '0.95rem', cursor: 'pointer', fontWeight: 'bold', boxShadow: '0 4px 6px rgba(0,0,0,0.1)'
 };
-
+const verticalLineStyle = {
+    backgroundColor: '#0A3A47',
+    width: '1px',
+    height: '100%',
+    opacity: '0.5',
+    alignSelf: 'stretch'
+};
 export default Registro;

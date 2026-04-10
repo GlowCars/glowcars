@@ -28,11 +28,11 @@ const Citas = () => {
         const sessionParsed = JSON.parse(session)
         setUser({
             id: sessionParsed.id,
-            nombre: sessionParsed.nombre, // OJO: Verifica si en tu login es 'nombre' o 'name'
+            nombre: sessionParsed.nombre,
             apellidos: sessionParsed.apellidos
         });
 
-        // 2. Importante: Guardamos el ID en el formulario para el envío posterior
+        // Guardamos el ID en el formulario para el envío posterior
         setFormCita(prev => ({ ...prev, idUser: sessionParsed.id }));
 
         fetchDatos(sessionParsed.id);
@@ -59,7 +59,7 @@ const Citas = () => {
         setFormCita({ ...formCita, [e.target.name]: e.target.value });
     };
 
-    // 3. FUNCIÓN DE ENVÍO FINAL Y GUARDADO DE SESIÓN
+    // FUNCIÓN DE ENVÍO FINAL Y GUARDADO DE SESIÓN
     const handleRegistro = async (e) => {
         e.preventDefault();
 
@@ -72,8 +72,6 @@ const Citas = () => {
             const idUser = formCita.idUser;
             console.log(formCita)
             const resCreate = await axios.post(urlCita, { vehiculo, fecha, tipo, motivo, idUser });
-
-            // Al crear la cita, lo mandamos directo al perfil
             navigate('/perfil');
 
         } catch (error) {
@@ -147,10 +145,11 @@ const Citas = () => {
                                 onChange={handleChange}
                                 required />
                         </div>
-
-                        <button type="submit" style={btnSolicitarStyle}>
-                            Solicitar cita
-                        </button>
+                        <div>
+                            <button type="submit" style={btnSolicitarStyle}>
+                                Solicitar cita
+                            </button>
+                        </div>
                     </form>
                 </div>
             </main>
@@ -167,21 +166,21 @@ const containerPageStyle = { display: 'flex', flexDirection: 'column', height: '
 const mainContentStyle = { flex: 1, display: 'flex', justifyContent: 'center', padding: '40px 20px' };
 const formWrapper = { width: '100%', maxWidth: '400px', textAlign: 'center' };
 const userHeader = { display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px', marginBottom: '30px' };
-const userNameStyle = { fontSize: '1.2rem', color: '#666' };
+const userNameStyle = { fontSize: '1.2rem', color: '#A7B1B7' };
 const formStyle = { display: 'flex', flexDirection: 'column', gap: '20px' };
 const inputGroup = { display: 'flex', flexDirection: 'column', gap: '5px', textAlign: 'left' };
 const labelStyle = { color: '#1A1A1A ', fontSize: '1.1rem' };
-const inputStyle = { padding: '12px', border: '1px solid #ccc', borderRadius: '15px', fontSize: '1rem', color: '#1A1A1A ', fontFamily: 'inherit' };
+const inputStyle = { padding: '12px', border: '1px solid #A7B1B7', borderRadius: '15px', fontSize: '1rem', color: '#1A1A1A ', fontFamily: 'inherit' };
 const btnSolicitarStyle = {
-    backgroundColor: '#c7ffc7',
-    border: '1px solid #999',
-    padding: '12px',
+    backgroundColor: '#7CFFB2',
+    border: '1px solid #A7B1B7',
+    padding: '14px',
     borderRadius: '20px',
     fontSize: '1.1rem',
     cursor: 'pointer',
     marginTop: '10px',
     boxShadow: '0px 2px 4px rgba(0,0,0,0.1)',
-    fontFamily: 'inherit'
+    fontFamily: 'Arial, sans-serif'
 };
 
 export default Citas;

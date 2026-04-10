@@ -6,7 +6,7 @@ import miLogo from '../images/logo.png';
 const Header = () => {
     const navigate = useNavigate();
     const location = useLocation();
-    const [user, setUser] = useState({ nombre: 'J.M', iniciales: 'JM' });
+    const [user, setUser] = useState({});
     const [menuAbierto, setMenuAbierto] = useState(false);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
 
@@ -42,6 +42,7 @@ const Header = () => {
     const handleLogout = (e) => {
         e.stopPropagation();
         sessionStorage.removeItem('usuarioGlowcars');
+        setIsLoggedIn(false);
         navigate('/home');
     };
     const handleToPerfile = (e) => {
@@ -57,7 +58,7 @@ const Header = () => {
         fontSize: '1rem',
         opacity: isActive ? 1 : 0.8,
         // Si la página está activa, color verde, si no, blanco
-        color: isActive ? '#8be28b' : 'white',
+        color: isActive ? '#7CFFB2' : 'white',
         transition: 'color 0.3s ease'
     });
 
@@ -66,8 +67,8 @@ const Header = () => {
             <div style={{ ...brandStyle, cursor: 'pointer' }} onClick={() => navigate('/home')}>
                 <img src={miLogo} alt="Logo" style={{ width: '45px', height: '45px' }} />
                 <div>
-                    <h1 style={{ color: '#8be28b', margin: 0, fontSize: '1.8rem' }}>GLOWCARS</h1>
-                    <p style={{ margin: 0, fontSize: '0.8rem', opacity: 0.8}}>Taller mecánico</p>
+                    <h1 style={{ color: '#7CFFB2', margin: 0, fontSize: '1.8rem' }}>GLOWCARS</h1>
+                    <p style={{ margin: 0, fontSize: '0.8rem', opacity: 0.8 }}>Taller mecánico</p>
                 </div>
             </div>
 
@@ -78,14 +79,13 @@ const Header = () => {
             </nav>
 
             {/* USUARIO CON DROPDOWN */}
-
             <div style={userWrapper}>
                 {isLoggedIn ? (
                     // Usamos un Fragment (<>) para agrupar el badge y el menú
                     <>
                         <div style={userBadgeStyle} onClick={() => setMenuAbierto(!menuAbierto)}>
-                            <UserCircle size={30} color="#8be28b" />
-                            <span style={{ color: "#8be28b", fontSize: '0.9rem' }}>{user.nombre}</span>
+                            <UserCircle size={30} color="#7CFFB2" />
+                            <span style={{ color: "#7CFFB2", fontSize: '0.9rem' }}>{user.nombre}</span>
                             <ChevronDown size={16} color="white" style={{ marginLeft: '4px' }} />
                         </div>
 
@@ -105,7 +105,7 @@ const Header = () => {
                         to="/login"
                         style={({ isActive }) => ({
                             ...loginLinkStyle,
-                            color: isActive ? '#8be28b' : 'white', opacity: 0.8
+                            color: isActive ? '#7CFFB2' : 'white', opacity: 1
                         })}>
                         <UserCircle size={24} /> Log in
                     </NavLink>
@@ -117,14 +117,14 @@ const Header = () => {
 
 // --- ESTILOS ---
 const headerStyle = {
-    backgroundColor: '#263a45', color: 'white', padding: '10px 50px', display: 'flex',
-    justifyContent: 'space-between', alignItems: 'center', position: 'relative'
+    backgroundColor: '#0A3A47', color: 'white', padding: '10px 50px', display: 'flex',
+    justifyContent: 'space-between', alignItems: 'center', position: 'relative', color: '#FFFFFF'
 };
 const brandStyle = { display: 'flex', alignItems: 'center', gap: '10px' };
-const navLinksStyle = { display: 'flex', gap: '25px' };
+const navLinksStyle = { display: 'flex', gap: '25px', fontFamily: 'Poppins', color: '#FFFFFF' };
 const navLinkStyle = {
-    textDecoration: 'none', color: '#ccc', display: 'flex', alignItems: 'center',
-    gap: '5px', fontSize: '0.9rem'
+    textDecoration: 'none', color: '#FFFFFF', display: 'flex', alignItems: 'center',
+    gap: '5px', fontSize: '0.9rem', fontFamily: 'Poppins'
 };
 const loginLinkStyle = { ...navLinkStyle };
 const userWrapper = { position: 'relative' };
@@ -132,11 +132,11 @@ const userBadgeStyle = { display: 'flex', alignItems: 'center', gap: '8px', curs
 const dropdownStyle = {
     position: 'absolute', top: '40px', right: 0, backgroundColor: 'white',
     borderRadius: '8px', boxShadow: '0px 4px 10px rgba(0,0,0,0.2)', overflow: 'hidden', zIndex: 100,
-    width: '150px'
+    width: '150px', fontFamily: 'Poppins'
 };
 const logoutButtonStyle = {
     width: '100%', padding: '10px', border: 'none', backgroundColor: 'transparent',
-    cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px', color: '#333', fontSize: '0.9rem'
+    cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px', color: '#1A1A1A', fontSize: '0.9rem'
 };
 
 export default Header;

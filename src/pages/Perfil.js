@@ -30,7 +30,7 @@ const Perfil = () => {
             await axios.delete(`http://localhost:5000/deleteCar/${vehiculoSeleccionado.id_vehiculo}`);
             setVehiculos(prev => prev.filter(v => v.id_vehiculo !== vehiculoSeleccionado.id_vehiculo));
             setShowModal(false); // Cerramos el modal
-            setShowSuccessModal(true); 
+            setShowSuccessModal(true);
         } catch (error) {
             setShowModal(false);
             setShowErrorModal(true);
@@ -102,7 +102,6 @@ const Perfil = () => {
                                             <Pencil
                                                 size={18}
                                                 style={iconActionStyle}
-                                                // Enviamos el objeto 'v' (el vehículo actual) a través del estado de navegación
                                                 onClick={() => navigate('/modificarVehiculo', { state: { vehiculo: v } })}
                                             />
                                             <Trash2 size={18} style={iconActionStyle} onClick={() => abrirConfirmacion(v)} />
@@ -122,7 +121,7 @@ const Perfil = () => {
                     {/* SECCIÓN CITAS */}
                     <section style={{ ...sectionContainer, marginTop: '40px' }}>
                         <div style={sectionHeader}>
-                            <Calendar1 size={25} color="#333" />
+                            <Calendar1 size={25} color="#0A3A47" />
                             <h2 style={sectionTitle}>Citas</h2>
                         </div>
                         <table style={tableStyle}>
@@ -175,7 +174,7 @@ const Perfil = () => {
                     <div style={modalContentStyle}>
                         <h3 style={{ color: '#1A1A1A' }}>¿Eliminar vehículo?</h3>
                         <p>Estás a punto de borrar el <b>{vehiculoSeleccionado?.marca} {vehiculoSeleccionado?.modelo}</b>.</p>
-                        <p style={{ fontSize: '0.8rem', color: '#666' }}>Esta acción no se puede deshacer.</p>
+                        <p style={{ fontSize: '0.8rem', color: '#A7B1B7' }}>Esta acción no se puede deshacer.</p>
 
                         <div style={modalButtonsStyle}>
                             <button
@@ -197,7 +196,7 @@ const Perfil = () => {
             {showSuccessModal && (
                 <div style={modalOverlayStyle}>
                     <div style={modalContentStyle}>
-                        <CircleCheckBig size={48} color="#8be28b" style={{ marginBottom: '15px' }} />
+                        <CircleCheckBig size={48} color="#7CFFB2" style={{ marginBottom: '15px' }} />
                         <h3 style={{ color: '#1A1A1A' }}>Vehículo eliminado</h3>
                         <p>El vehículo ha sido eliminado correctamente.</p>
 
@@ -236,22 +235,23 @@ const Perfil = () => {
 // --- ESTILOS ---
 const containerPageStyle = {
     display: 'flex', flexDirection: 'column', minHeight: '100vh', fontFamily: 'Poppins',
-    backgroundColor: '#fff'
+    backgroundColor: '#FFFFFF'
 };
 const mainContentStyle = { flex: 1, display: 'flex', justifyContent: 'center', padding: '40px 20px' };
 const contentWrapper = { width: '100%', maxWidth: '900px' };
 const sectionContainer = { textAlign: 'center', width: '100%', marginBottom: '50px' };
 const sectionHeader = { display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px', marginBottom: '20px' };
-const sectionTitle = { margin: 0, fontSize: '1.4rem', color: '#333' };
+const sectionTitle = { margin: 0, fontSize: '1.4rem', color: '#0A3A47' };
 const tableStyle = { width: '100%', borderCollapse: 'collapse', };
-const tableHeaderRow = { borderBottom: '2px solid #333', color: '#666', height: '40px' };
-const tableDataRow = { borderBottom: '1px solid #333', height: '50px' };
+const tableHeaderRow = { fontSize: '1.1rem', borderBottom: '2px solid #1A1A1A', color: '#1A1A1A', height: '40px' };
+const tableDataRow = { fontSize: '1.1rem', borderBottom: '1px solid #1A1A1A', height: '50px' };
 const actionsCell = { display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '15px', height: '50px' };
-const iconActionStyle = { cursor: 'pointer', color: '#333' };
+const iconActionStyle = { cursor: 'pointer', color: '#0A3A47' };
 const addCarContainer = { display: 'flex', justifyContent: 'flex-end', marginTop: '15px' };
 const btnAddCarStyle = {
-    backgroundColor: '#c7ffc7', color: '#000', border: '1px solid #999', padding: '8px 20px',
-    borderRadius: '15px', cursor: 'pointer', fontWeight: 'bold', boxShadow: '0px 2px 5px rgba(0,0,0,0.1)'
+    backgroundColor: '#7CFFB2', color: '#1A1A1A', border: '1px solid #A7B1B7', padding: '8px 20px',
+    borderRadius: '15px', cursor: 'pointer', fontWeight: 'bold', boxShadow: '0px 2px 5px rgba(0,0,0,0.1)', fontSize: '1.0rem',
+    fontFamily: 'Poppins'
 };
 const modalOverlayStyle = {
     position: 'fixed',
@@ -259,11 +259,11 @@ const modalOverlayStyle = {
     left: 0,
     width: '100%',
     height: '100%',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)', // Fondo oscuro semitransparente
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    zIndex: 2000 // Por encima de todo
+    zIndex: 2000
 };
 
 const modalContentStyle = {
@@ -286,8 +286,8 @@ const modalButtonsStyle = {
 const btnCancelarStyle = {
     padding: '10px 20px',
     borderRadius: '10px',
-    border: '1px solid #ccc',
-    backgroundColor: '#eee',
+    border: '1px solid #A7B1B7',
+    backgroundColor: '#FFFFFF',
     cursor: 'pointer'
 };
 
@@ -295,7 +295,7 @@ const btnEliminarStyle = {
     padding: '10px 20px',
     borderRadius: '10px',
     border: 'none',
-    backgroundColor: '#ff4d4d', // Rojo para advertir peligro
+    backgroundColor: '#ff4d4d',
     color: 'white',
     fontWeight: 'bold',
     cursor: 'pointer'
@@ -303,8 +303,8 @@ const btnEliminarStyle = {
 const btnAceptarStyle = {
     padding: '10px 20px',
     borderRadius: '10px',
-    border: '1px solid #ccc',
-    backgroundColor: '#eee',
+    border: '1px solid #A7B1B7',
+    backgroundColor: '#FFFFFF',
     cursor: 'pointer'
 };
 export default Perfil;

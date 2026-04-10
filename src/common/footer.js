@@ -17,9 +17,12 @@ const Footer = () => {
 };
 
 // --- ESTILOS ---
-const footerStyle = { backgroundColor: '#263a45', color: 'white', padding: '20px 50px' };
-const footerGrid = { opacity: 0.8, display: 'flex', justifyContent: 'space-around', borderBottom: '1px solid #444', paddingBottom: '15px' };
-const footerItem = { opacity: 0.8, textAlign: 'center', fontSize: '0.75rem', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '5px' };
-const socialIcons = { color: '#8be28b', display: 'flex', justifyContent: 'center', gap: '15px', marginTop: '10px' };
+const footerStyle = { backgroundColor: '#0A3A47', color: 'white', padding: '20px 50px' };
+const footerGrid = { display: 'flex', justifyContent: 'space-around', borderBottom: '1px solid #1A1A1A', paddingBottom: '15px' };
+const footerItem = {
+    opacity: 0.8, textAlign: 'center', fontSize: '0.75rem', display: 'flex', flexDirection: 'column', alignItems: 'center',
+    gap: '5px', fontFamily: 'Poppins', color: '#FFFFFF'
+};
+const socialIcons = { color: '#7CFFB2', display: 'flex', justifyContent: 'center', gap: '15px', marginTop: '10px' };
 
 export default Footer; 

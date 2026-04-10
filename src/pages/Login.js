@@ -59,7 +59,7 @@ function Login() {
   const handleOlvidoPassword = (e) => {
     e.preventDefault();
     if (!email) {
-      setInfo({ texto: "Introduce tu email para recuperar la clave.", color: '#263a45' });
+      setInfo({ texto: "Introduce tu email para recuperar la clave.", color: '#0A3A47' });
     } else {
       setInfo({ texto: `Instrucciones enviadas a ${email}`, color: 'green' });
     }
@@ -76,7 +76,7 @@ function Login() {
 
       <main style={mainContentStyle}>
         <div style={formCardStyle}>
-          <UserCircle2 size={60} color="#263a45" style={{ marginBottom: '20px' }} />
+          <UserCircle2 size={60} color="#0A3A47" style={{ marginBottom: '20px' }} />
 
           <form style={formLayout} onSubmit={handleLogin}>
             <div style={inputGroupFull}>
@@ -111,7 +111,7 @@ function Login() {
             </div>
 
             <p style={{ textAlign: 'left', margin: '0' }}>
-              <a href="#olvido" onClick={handleOlvidoPassword} style={{ color: '#263a45', fontSize: '0.9rem', textDecoration: 'underline' }}>
+              <a href="#olvido" onClick={handleOlvidoPassword} style={{ color: '#0A3A47', fontSize: '0.9rem', textDecoration: 'underline' }}>
                 ¿Has olvidado la contraseña?
               </a>
             </p>
@@ -142,20 +142,20 @@ function Login() {
 // --- ESTILOS ---
 const containerPageStyle = { display: 'flex', flexDirection: 'column', minHeight: '100vh', fontFamily: 'Poppins' };
 const mainContentStyle = {
-  flex: 1, backgroundColor: '#fff', display: 'flex', justifyContent: 'center', alignItems: 'center',
+  flex: 1, backgroundColor: '#FFFFFF', display: 'flex', justifyContent: 'center', alignItems: 'center',
   padding: '40px 20px'
 };
 const formCardStyle = { width: '100%', maxWidth: '350px', padding: '20px', textAlign: 'center' };
 const formLayout = { display: 'flex', flexDirection: 'column', gap: '15px' };
 const inputGroupFull = { display: 'flex', flexDirection: 'column', gap: '5px', textAlign: 'left' };
-const labelStyle = { fontSize: '1rem', color: '#333' };
-const inputStyle = { padding: '10px', border: '1px solid #ccc', borderRadius: '10px', fontSize: '1rem', width: '100%' };
+const labelStyle = { fontSize: '1rem', color: '#1A1A1A' };
+const inputStyle = { padding: '10px', border: '1px solid #A7B1B7', borderRadius: '10px', fontSize: '1rem', width: '100%' };
 const eyeButtonStyle = {
   position: 'absolute', right: '5px', top: '50%', transform: 'translateY(-50%)', background: 'none',
-  border: 'none', cursor: 'pointer', color: '#666', display: 'flex', alignItems: 'center', padding: '0'
+  border: 'none', cursor: 'pointer', color: '#A7B1B7', display: 'flex', alignItems: 'center', padding: '0'
 };
 const btnActionStyle = {
-  flex: 1, backgroundColor: '#c7ffc7', color: '#000', border: '1px solid #999', padding: '10px',
+  flex: 1, backgroundColor: '#7CFFB2', color: '#1A1A1A', border: '1px solid #A7B1B7', padding: '10px',
   borderRadius: '15px', fontSize: '1rem', cursor: 'pointer', boxShadow: '0px 4px 4px rgba(0,0,0,0.25)',fontFamily: 'inherit'
 };
 

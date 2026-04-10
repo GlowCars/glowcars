@@ -190,7 +190,7 @@ const ModifcarCitas = () => {
             {showModal && (
                 <div style={modalOverlayStyle}>
                     <div style={modalContentStyle}>
-                        <CircleCheckBig size={48} color="#8be28b" style={{ marginBottom: '15px' }} />
+                        <CircleCheckBig size={48} color="#7CFFB2" style={{ marginBottom: '15px' }} />
                         <h3 style={{ color: '#1A1A1A' }}>Cita modificada</h3>
                         <p>La cita ha sido modificada correctamente.</p>
                         <div style={modalButtonsStyle}>
@@ -205,8 +205,8 @@ const ModifcarCitas = () => {
 
 // --- ESTILOS ---
 const colors = {
-    header: '#263a45', brand: '#8be28b', formTitle: '#333', inputBorder: '#bbb', inputBg: '#eee',
-    btnRegistro: '#c7ffc7'
+    header: '#0A3A47', brand: '#7CFFB2', formTitle: '#1A1A1A', inputBorder: '#A7B1B7', inputBg: '#FFFFFF',
+    btnRegistro: '#7CFFB2'
 };
 const modalOverlayStyle = {
     position: 'fixed', top: 0, left: 0, width: '100%', height: '100%',
@@ -216,8 +216,8 @@ const modalContentStyle = {
     backgroundColor: 'white', padding: '30px', borderRadius: '15px', width: '90%', maxWidth: '400px', textAlign: 'center'
 };
 const modalButtonsStyle = { display: 'flex', justifyContent: 'center', marginTop: '20px' };
-const btnAceptarStyle = { padding: '10px 20px', borderRadius: '10px', border: '1px solid #ccc', backgroundColor: '#eee', cursor: 'pointer' };
-const containerPageStyle = { display: 'flex', flexDirection: 'column', minHeight: '100vh', fontFamily: 'Poppins', backgroundColor: '#fff' };
+const btnAceptarStyle = { padding: '10px 20px', borderRadius: '10px', border: '1px solid #A7B1B7', backgroundColor: '#FFFFFF', cursor: 'pointer' };
+const containerPageStyle = { display: 'flex', flexDirection: 'column', minHeight: '100vh', fontFamily: 'Poppins', backgroundColor: '#FFFFFF' };
 const mainContentStyle = { flex: 1, display: 'flex', justifyContent: 'center', padding: '40px 20px' };
 const formWrapper = { width: '100%', maxWidth: '400px', textAlign: 'center' };
 const userHeader = { display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px', marginBottom: '30px' };
@@ -225,9 +225,9 @@ const formTitleStyle = { margin: 0, fontSize: '1.4rem', color: colors.formTitle,
 const formStyle = { fontFamily: 'Arial, sans-serif', display: 'flex', flexDirection: 'column', gap: '20px' };
 const inputGroup = { display: 'flex', flexDirection: 'column', gap: '5px', textAlign: 'left' };
 const labelStyle = { color: '#1A1A1A ', fontSize: '1.1rem' };
-const inputStyle = { padding: '12px', border: '1px solid #ccc', borderRadius: '15px', fontSize: '1rem', color: '#1A1A1A ', backgroundColor: 'white' };
+const inputStyle = { padding: '12px', border: '1px solid #A7B1B7', borderRadius: '15px', fontSize: '1rem', color: '#1A1A1A ', backgroundColor: 'white' };
 const btnSolicitarStyle = {
-    backgroundColor: '#c7ffc7', border: '1px solid #999', padding: '14px', borderRadius: '20px', fontSize: '1.1rem',
+    backgroundColor: '#7CFFB2', border: '1px solid #A7B1B7', padding: '14px', borderRadius: '20px', fontSize: '1.1rem',
     cursor: 'pointer', marginTop: '10px', boxShadow: '0px 2px 4px rgba(0,0,0,0.1)'
 };
 

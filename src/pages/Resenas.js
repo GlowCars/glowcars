@@ -76,12 +76,10 @@ const Resenas = () => {
                     {/* SECCIÓN DE ACCIÓN: Muestra un botón u otro según el login */}
                     <div style={actionSection}>
                         {isLoggedIn ? (
-                            /* Botón Verde para cuando SÍ está logueado */
                             <button style={btnAnadirResenaStyle} onClick={() => navigate("/newResena")}>
                                 <PlusCircle size={20} /> Añadir reseña
                             </button>
                         ) : (
-                            /* Botón Ocre para cuando NO está logueado */
                             <button style={btnRegistrateOpinarStyle} onClick={() => navigate('/login')}>
                                 Regístrate para opinar
                             </button>
@@ -94,7 +92,9 @@ const Resenas = () => {
                             <div key={i} style={cardStyle}>
                                 <div style={starsRow}>
                                     {[...Array(5)].map((_, starIndex) => (
-                                        <Star key={starIndex} size={18} fill={starIndex < r.calificacion ? "#FFD700" : "none"} color="#FFD700" />
+                                        <Star key={starIndex} size={18}
+                                            fill={starIndex < r.calificacion ? "#ffc107" : "none"}
+                                            color={starIndex < r.calificacion ? "#ffc107" : "#A7B1B7"}/>
                                     ))}
                                 </div>
                                 <h4 style={cardHeader}>{r.titulo}</h4>
@@ -130,33 +130,33 @@ const Resenas = () => {
 };
 
 // --- ESTILOS ---
-const containerPageStyle = { display: 'flex', flexDirection: 'column', minHeight: '100vh', fontFamily: 'Poppins', backgroundColor: '#fff' };
+const containerPageStyle = { display: 'flex', flexDirection: 'column', minHeight: '100vh', fontFamily: 'Poppins', backgroundColor: '#FFFFFF' };
 const mainContentStyle = { flex: 1, padding: '40px 20px', display: 'flex', justifyContent: 'center' };
 const contentWrapper = { maxWidth: '1000px', width: '100%' };
 const actionSection = { display: 'flex', justifyContent: 'center', marginBottom: '30px' };
-const iconActionStyle = { cursor: 'pointer', color: '#333' };
+const iconActionStyle = { cursor: 'pointer', color: '#1A1A1A' };
 
 // ESTILO BOTÓN VERDE (Logueado)
 const btnAnadirResenaStyle = {
-    backgroundColor: '#c7ffc7',
-    color: '#333',
-    border: '1px solid #999',
-    padding: '12px 25px',
+    backgroundColor: '#7CFFB2',
+    color: '#1A1A1A',
+    border: '1px solid #A7B1B7',
+    padding: '13px 25px',
     borderRadius: '20px',
     cursor: 'pointer',
     display: 'flex',
     alignItems: 'center',
     gap: '10px',
     fontWeight: 'bold',
-    boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
-    fontFamily: 'inherit'
+    boxShadow: '0 4px 4px rgba(0,0,0,0.1)',
+    fontFamily: 'Poppins'
 };
 
 // ESTILO BOTÓN OCRE (No logueado)
 const btnRegistrateOpinarStyle = {
     backgroundColor: '#d9b35c',
     color: 'white',
-    border: '1px solid #999',
+    border: '1px solid #A7B1B7',
     padding: '12px 30px',
     borderRadius: '15px',
     cursor: 'pointer',
@@ -168,22 +168,22 @@ const btnRegistrateOpinarStyle = {
 
 const resenasGrid = { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' };
 const cardStyle = {
-    border: '1px solid #eee', borderRadius: '15px', padding: '20px',
-    boxShadow: '0 2px 8px rgba(0,0,0,0.05)',display: 'inline-grid'
+    border: '1px solid #0A3A47', borderRadius: '15px', padding: '20px',
+    boxShadow: '0 2px 8px rgba(0,0,0,0.05)', display: 'inline-grid', backgroundColor: '#f8f7f7'
 };
 const starsRow = { display: 'flex', gap: '2px', height: '20px' };
-const cardHeader = { margin: '0 0 0 0', fontSize: '1rem', color: '#333',height: '18px'};
+const cardHeader = { margin: '0 0 0 0', fontSize: '1.1rem', color: '#1A1A1A', height: '18px' };
 const cardText = {
-    fontSize: '0.95rem', color: '#555', fontStyle: 'Montserrat',
+    fontSize: '1.1rem', color: '#1A1A1A', fontStyle: 'Montserrat',
     marginBottom: '15px', textAlign: 'justify'
 };
 const userRow = { display: 'flex', alignItems: 'center', gap: '12px' };
 const avatarCircle = {
-    width: '40px', height: '40px', backgroundColor: '#e2e8f0',
+    width: '40px', height: '40px', backgroundColor: '#7CFFB2',
     borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.8rem'
 };
 const userName = { fontWeight: 'bold', fontSize: '0.9rem' };
-const userDate = { fontSize: '0.8rem', color: '#999', textAlign: 'left' };
-const userEdit = { fontSize: '0.8rem', color: '#999', textAlign: 'left', marginLeft: 'auto' };
+const userDate = { fontSize: '0.8rem', color: '#A7B1B7', textAlign: 'left' };
+const userEdit = { fontSize: '0.8rem', color: '#A7B1B7', textAlign: 'left', marginLeft: 'auto' };
 
 export default Resenas;

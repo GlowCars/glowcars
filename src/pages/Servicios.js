@@ -7,7 +7,7 @@ import reparaciones from '../images/reparaciones.png';
 import presupuesto from '../images/presupuesto.png';
 
 const Servicios = () => {
-  const navigate = useNavigate(); // Inicializamos el hook para navegar
+  const navigate = useNavigate();
 
   // Función genérica para redirigir pasando el tipo de servicio
   const solicitarCita = (nombreServicio) => {
@@ -107,14 +107,14 @@ const Servicios = () => {
 
 // --- ESTILOS ---
 const colors = {
-  header: '#263a45',
-  brand: '#8be28b',
-  textCard: '#333',
-  btnCita: '#c7ffc7',
+  header: '#0A3A47',
+  brand: '#7CFFB2',
+  textCard: '#1A1A1A',
+  btnCita: '#7CFFB2',
 };
 const containerPageStyle = {
   display: 'flex', flexDirection: 'column', minHeight: '100vh', fontFamily: 'Poppins',
-  backgroundColor: '#fff'
+  backgroundColor: '#FFFFFF'
 };
 const mainContentStyle = { flex: 1, padding: '100px', display: 'flex', justifyContent: 'center' };
 const gridServicesStyle = {
@@ -122,17 +122,17 @@ const gridServicesStyle = {
   width: '100%', padding: '20px', justifyContent: 'space-between'
 };
 const cardServiceStyle = {
-  backgroundColor: '#fff', border: '1px solid #ddd', borderRadius: '15px', padding: '20px',
+  backgroundColor: '#f8f7f7', border: '1px solid #0A3A47', borderRadius: '15px', padding: '20px',
   display: 'flex', alignItems: 'flex-start', gap: '15px', boxShadow: '0 4px 10px rgba(0,0,0,0.1)', position: 'relative', width: '100%'
 };
 const cardTextStyle = { flex: 1, textAlign: 'left' };
-const cardTitleStyle = { margin: '0 0 10px 0', fontSize: '1.3rem', color: colors.textCard, fontWeight: 'bold' };
-const cardDescStyle = { margin: 0, fontSize: '1.1rem', color: colors.textCard, lineHeight: '1.4', textAlign: 'justify' };
+const cardTitleStyle = { borderBottom: '2px solid #A7B1B7', marginBottom: '30px', margin: '0 0 10px 0', fontSize: '1.3rem', color: colors.textCard, fontWeight: 'bold' };
+const cardDescStyle = { margin: 0, fontSize: '1.2rem', color: colors.textCard, lineHeight: '1.4', textAlign: 'justify' };
 const cardImgStyle = { width: '100px', height: '100px', borderRadius: '20px', objectFit: 'cover' };
 const btnPideCitaStyle = {
-  backgroundColor: colors.btnCita, color: colors.textCard, border: '1px solid #999',
-  padding: '10px 20px', borderRadius: '20px', fontSize: '0.9rem', cursor: 'pointer', position: 'absolute', bottom: '-43px',
-  right: '20px', fontWeight: 'bold', fontFamily: 'inherit'
+  backgroundColor: colors.btnCita, color: colors.textCard, border: '1px solid #A7B1B7',
+  padding: '10px 20px', borderRadius: '20px', fontSize: '1.0rem', cursor: 'pointer', position: 'absolute', bottom: '-43px',
+  right: '20px', fontWeight: 'bold', fontFamily: 'Poppins'
 };
 
 export default Servicios;
