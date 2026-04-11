@@ -20,7 +20,7 @@ describe('Pruebas Unitarias - Footer Component', () => {
   test('debe renderizar la sección de copyright con el año y nombre de marca', () => {
     render(<Footer />);
 
-    // Buscamos el texto que añadimos en copyrightStyle
+    // Busca el texto en copyrightStyle
     const copyright = screen.getByText(/© 2026 GLOWCARS. Todos los derechos reservados./i);
     expect(copyright).toBeInTheDocument();
   });
@@ -31,8 +31,7 @@ describe('Pruebas Unitarias - Footer Component', () => {
     // Buscamos el elemento footer por su rol
     const footerElement = screen.getByRole('contentinfo'); 
     
-    // Verificamos el color de fondo oscuro que definiste (#0A3A47)
-    // Nota: Jest convierte los colores a formato RGB
+    // Verificamos el color de fondo oscuro (#0A3A47)
     expect(footerElement).toHaveStyle({ backgroundColor: 'rgb(10, 58, 71)' });
   });
 });

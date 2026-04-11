@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom'; // Importamos useLocation
+import { useNavigate, useLocation } from 'react-router-dom';
 import Header from '../common/header.js'
 import Footer from '../common/footer.js';
 import vehiculoImg from '../images/vehiculo.avif';
@@ -7,13 +7,14 @@ import axios from 'axios';
 import { CircleCheckBig } from 'lucide-react';
 
 const ModificarVehiculo = () => {
+    // Variables
     const navigate = useNavigate();
     const location = useLocation();
     const [user, setUser] = useState({ id: '', nombre: 'Usuario', apellidos: '' });
     const [showModal, setShowModal] = useState(false);
     const vehiculoData = location.state?.vehiculo;
 
-    // 1. ESTADOS: Inicializamos con los datos del vehículo recibido
+    // Inicializamos con los datos del vehículo recibido
     const [vehiculoUpdate, setvehiculoUpdate] = useState({
         id_vehiculo: vehiculoData?.id_vehiculo,
         matricula: vehiculoData?.matricula,
@@ -22,7 +23,7 @@ const ModificarVehiculo = () => {
         fc_mat: vehiculoData?.fc_mat,
         bastidor: vehiculoData?.bastidor
     });
-
+    // Cogemos los datos de usuario del sessionStorage
     useEffect(() => {
         const session = sessionStorage.getItem('usuarioGlowcars');
         const sessionParsed = JSON.parse(session)
@@ -40,10 +41,9 @@ const ModificarVehiculo = () => {
         setvehiculoUpdate({ ...vehiculoUpdate, [e.target.name]: e.target.value });
     };
 
-    // 3. FUNCIÓN DE ENVÍO (UPDATE)
     const handleRegistro = async (e) => {
         e.preventDefault();
-
+        // Llamamos al servicio updateCar para actualizar el vehiculo y guardar en BBDD
         try {
             const urlUpdate = `http://localhost:5000/updateCar/${vehiculoUpdate.id_vehiculo}`;
             const matricula = vehiculoUpdate.matricula;
@@ -62,7 +62,7 @@ const ModificarVehiculo = () => {
             alert("No se pudieron guardar los cambios.");
         }
     };
-
+    // Boton aceptar y redirigue a perfil cerrando la modal
     const handleAccept = async (e) => {
         setShowModal(false);
         navigate('/perfil');
@@ -72,7 +72,7 @@ const ModificarVehiculo = () => {
         <div style={containerPageStyle}>
             {/* --- CABECERA --- */}
             <Header></Header>
-
+            {/* --- FORMULARIO --- */}
             <main style={mainContentStyle}>
                 <div style={formWrapper}>
                     <div style={formHeaderStyle}>
@@ -139,7 +139,7 @@ const ModificarVehiculo = () => {
 
             {/* --- FOOTER --- */}
             <Footer></Footer>
-
+            {/* --- VENTANA MODAL --- */}
             {showModal && (
                 <div style={modalOverlayStyle}>
                     <div style={modalContentStyle}>
@@ -172,46 +172,29 @@ const mainContentStyle = { flex: 1, display: 'flex', justifyContent: 'center', p
 const gridRegistroStyle = { display: 'flex', flexDirection: 'column', gap: '20px' };
 const formHeaderStyle = { display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px', marginBottom: '30px' };
 const formTitleStyle = { margin: 0, fontSize: '1.4rem', color: colors.formTitle, fontWeight: 'bold', fontFamily: 'Arial, sans-serif' };
-const inputGroupStyle = { display: 'flex', flexDirection: 'column', gap: '5px', textAlign: 'left', fontFamily: 'Arial, sans-serif'  };
+const inputGroupStyle = { display: 'flex', flexDirection: 'column', gap: '5px', textAlign: 'left', fontFamily: 'Arial, sans-serif' };
 const labelStyle = { color: '#1A1A1A ', fontSize: '1.1rem' };
-const inputStyle = { padding: '12px', border: '1px solid #A7B1B7', borderRadius: '15px', fontSize: '1rem', color: '#1A1A1A ', backgroundColor: 'white' };
+const inputStyle = {
+    padding: '12px', border: '1px solid #A7B1B7', borderRadius: '15px', fontSize: '1rem', color: '#1A1A1A ',
+    backgroundColor: 'white'
+};
 const formWrapper = { width: '100%', maxWidth: '400px', textAlign: 'center' };
 const btnRegistroStyle = {
-    backgroundColor: '#7CFFB2', border: '1px solid #A7B1B7', padding: '14px', borderRadius: '20px', fontSize: '1.1rem',
-    cursor: 'pointer', marginTop: '10px', boxShadow: '0px 2px 4px rgba(0,0,0,0.1)'
+    backgroundColor: '#7CFFB2', border: '1px solid #A7B1B7', padding: '14px', borderRadius: '20px',
+    fontSize: '1.1rem', cursor: 'pointer', marginTop: '10px', boxShadow: '0px 2px 4px rgba(0,0,0,0.1)'
 };
 const modalOverlayStyle = {
-    position: 'fixed',
-    top: 0,
-    left: 0,
-    width: '100%',
-    height: '100%',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    zIndex: 2000
+    position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    display: 'flex', justifyContent: 'center', alignItems: 'center', zIndex: 2000
 };
 const modalContentStyle = {
-    backgroundColor: 'white',
-    padding: '30px',
-    borderRadius: '15px',
-    width: '90%',
-    maxWidth: '400px',
-    textAlign: 'center',
-    boxShadow: '0 4px 15px rgba(0,0,0,0.2)'
+    backgroundColor: 'white', padding: '30px', borderRadius: '15px', width: '90%', maxWidth: '400px',
+    textAlign: 'center', boxShadow: '0 4px 15px rgba(0,0,0,0.2)'
 };
-const modalButtonsStyle = {
-    display: 'flex',
-    justifyContent: 'center',
-    gap: '15px',
-    marginTop: '20px'
-};
+const modalButtonsStyle = { display: 'flex', justifyContent: 'center', gap: '15px', marginTop: '20px' };
 const btnAceptarStyle = {
-    padding: '10px 20px',
-    borderRadius: '10px',
-    border: '1px solid #A7B1B7',
-    backgroundColor: '#FFFFFF',
+    padding: '10px 20px', borderRadius: '10px', border: '1px solid #A7B1B7', backgroundColor: '#FFFFFF',
     cursor: 'pointer'
 };
+
 export default ModificarVehiculo;

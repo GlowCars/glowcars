@@ -43,7 +43,7 @@ function Conocenos() {
           </div>
         </div>
 
-        {/* SECCIÓN 2: VALORES CLAVE */}
+        {/* VALORES CLAVE */}
         <div style={seccionValoresStyle}>
           <div style={valorItemStyle}>
             <Award size={40} color="#0A3A47" style={valorIconStyle} />
@@ -66,7 +66,6 @@ function Conocenos() {
 
       {/* --- FOOTER --- */}
       <Footer></Footer>
-
     </div>
   );
 }
@@ -76,30 +75,20 @@ const containerPageStyle = { display: 'flex', flexDirection: 'column', minHeight
 const mainContentStyle = { flex: 1, backgroundColor: '#FFFFFF', padding: '50px', maxWidth: '1200px', margin: '0 auto' };
 const sectionMisionStyle = { display: 'flex', gap: '50px', alignItems: 'center', flexWrap: 'wrap', marginBottom: '80px' };
 const misionTextStyle = { flex: 1, minWidth: '350px' };
-const paragraphStyle = { fontSize: '1.2rem', color: '#0A3A47', lineHeight: '1.6', marginBottom: '15px', display: 'flex', alignItems: 'start', textAlign: 'justify' };
+const paragraphStyle = {
+  fontSize: '1.2rem', color: '#0A3A47', lineHeight: '1.6', marginBottom: '15px', display: 'flex',
+  alignItems: 'start', textAlign: 'justify'
+};
 const fotoTallerContainerStyle = { flex: 1, minWidth: '100px', textAlign: 'center' };
 const fotoStyle = { width: '50%', borderRadius: '15px', boxShadow: '0 4px 15px rgba(0,0,0,0.3)', objectFit: 'cover' };
 const contactanosStyle = {
-  backgroundColor: '#7CFFB2',
-  color: '#1A1A1A',
-  border: '2px solid #0A3A47',
-  padding: '10px 10px',
-  borderRadius: '15px',
-  fontSize: '1.0rem',
-  fontWeight: 'bold',
-  width: '50%',
-  margin: 'auto'
+  backgroundColor: '#7CFFB2', color: '#1A1A1A', border: '2px solid #0A3A47', padding: '10px 10px',
+  borderRadius: '15px', fontSize: '1.0rem', fontWeight: 'bold', width: '50%', margin: 'auto'
 };
 const seccionValoresStyle = { display: 'flex', gap: '30px', justifyContent: 'space-between', flexWrap: 'wrap' };
 const valorItemStyle = {
-  flex: 1,
-  minWidth: '250px',
-  textAlign: 'center',
-  border: '2px solid #7CFFB2',
-  padding: '20px',
-  borderRadius: '15px',
-  boxShadow: '0 4px 8px rgba(0,0,0,0.3)',
-  backgroundColor: '#f8f7f7'
+  flex: 1, minWidth: '250px', textAlign: 'center', border: '2px solid #7CFFB2', padding: '20px',
+  borderRadius: '15px', boxShadow: '0 4px 8px rgba(0,0,0,0.3)', backgroundColor: '#f8f7f7'
 };
 const valorIconStyle = { marginBottom: '20px', display: 'block', margin: '0 auto 20px auto' };
 const valorTitleStyle = { color: '#0A3A47', fontSize: '1.2rem', fontWeight: 'bold', marginBottom: '10px' };

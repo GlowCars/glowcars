@@ -8,7 +8,10 @@ function Home() {
   const navigate = useNavigate();
 
   return (
-    <div style={{ backgroundColor: '#FFFFFF', minHeight: '100vh', fontFamily: 'Poppins', flexDirection: 'column', display: 'flex', flex: '1' }}>
+    <div style={{
+      backgroundColor: '#FFFFFF', minHeight: '100vh', fontFamily: 'Poppins',
+      flexDirection: 'column', display: 'flex', flex: '1'
+    }}>
 
       {/* --- CABECERA --- */}
       <Header></Header>
@@ -26,7 +29,6 @@ function Home() {
       <main style={mainContent}>
         <div style={flexLayout}>
           <div style={textContainer}>
-            {/* Título dinámico para que sepa dónde está */}
             <h2 style={{ color: '#0A3A47', marginBottom: '20px' }}>Bienvenidos a GlowCars</h2>
             <p style={paragraphStyle}>
               Somos un taller que ofrece el servicio que necesite usted para
@@ -36,11 +38,11 @@ function Home() {
               confianza.
             </p>
             <div style={buttonGroup}>
-              {/* Botón que también lleva a conócenos */}
+              {/* Boton que lleva a conocenos */}
               <button style={btnGreen} onClick={() => navigate('/conocenos')}>Visítanos</button>
-              {/* Botón que también lleva a servicios */}
+              {/* Boton que lleva a servicios */}
               <button style={btnGreen} onClick={() => navigate('/servicios')}>Servicios</button>
-              {/* Citas lleva a Login porque necesitas cuenta para pedir cita */}
+              {/* Boton de Citas que lleva a Login porque necesitas cuenta para pedir cita */}
               <button style={btnGreen} onClick={() => navigate('/citas')}>Citas</button>
             </div>
           </div>
@@ -70,8 +72,9 @@ const flexLayout = { display: 'flex', alignItems: 'center', gap: '60px' };
 const textContainer = { flex: 1.5, textAlign: 'left' };
 const carImageContainer = { flex: 1 };
 const paragraphStyle = { fontSize: '1.2rem', color: '#1A1A1A', lineHeight: '1.6', textAlign: 'justify' };
-const buttonGroup = { display: 'flex', gap: '20px', justifyContent: 'flex-start', marginTop: '30px'};
-const btnGreen = {backgroundColor: '#7CFFB2', border: '1px solid #A7B1B7 ', padding: '12px 30px', borderRadius: '15px',
+const buttonGroup = { display: 'flex', gap: '20px', justifyContent: 'flex-start', marginTop: '30px' };
+const btnGreen = {
+  backgroundColor: '#7CFFB2', border: '1px solid #A7B1B7 ', padding: '12px 30px', borderRadius: '15px',
   fontSize: '1.1rem', cursor: 'pointer', fontWeight: 'bold', boxShadow: '0px 4px 4px rgba(0,0,0,0.1)', fontFamily: 'Poppins'
 };
 

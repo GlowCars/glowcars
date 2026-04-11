@@ -3,7 +3,7 @@ import { Phone, Mail, Clock, Twitter, Instagram, Facebook } from 'lucide-react';
 const Footer = () => {
 
     return (
-        < footer style={footerStyle} >
+        <footer style={footerStyle}>
             <div style={footerGrid}>
                 <div style={footerItem}><Phone size={18} /> ¡LLAMANOS!<br />91 123 456</div>
                 <div style={footerItem}><Mail size={18} /> ¡ESCRIBENOS!<br />glowcars@taller.com</div>
@@ -28,13 +28,8 @@ const footerItem = {
 };
 const socialIcons = { color: '#7CFFB2', display: 'flex', justifyContent: 'center', gap: '15px', marginTop: '10px' };
 const copyrightStyle = {
-    textAlign: 'center',
-    fontSize: '0.9rem',
-    opacity: 0.8,
-    marginTop: '15px',
-    borderTop: '1px solid rgba(255,255,255,0.1)',
-    paddingTop: '10px',
-    color: '#FFFFFF'
+    textAlign: 'center', fontSize: '0.9rem', opacity: 0.8, marginTop: '15px', borderTop: '1px solid rgba(255,255,255,0.1)',
+    paddingTop: '10px', color: '#FFFFFF'
 };
 
 export default Footer; 

@@ -6,6 +6,7 @@ import Header from '../common/header.js'
 import Footer from '../common/footer.js';
 
 function Login() {
+  // Variables 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [info, setInfo] = useState({ texto: '', color: '' });
@@ -13,16 +14,16 @@ function Login() {
 
   const navigate = useNavigate();
 
-  // --- LÓGICA DE LOGIN CORREGIDA ---
+  // Logica de Log in
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
       const url = 'http://localhost:5000/login';
 
-      // 1. Intentamos la conexión con el backend
+      // Conexión con el backend
       const respuesta = await axios.post(url, { email, password });
 
-      // 2. Si el login es correcto, preparamos el objeto de sesión
+      // Si el login es correcto, preparamos el objeto de sesión
       const nombreUsuario = email.split('@')[0].toUpperCase();
       const iniciales = nombreUsuario.substring(0, 2);
       console.log(respuesta)
@@ -34,17 +35,15 @@ function Login() {
         telefono: respuesta.data.telefono,
         rol: respuesta.data.rol,
         fecha_registro: respuesta.data.fecha_registro,
-        iniciales: iniciales,
-        isLoggedIn: true,
-        token: respuesta.data.token || 'fake-token-123' // Guardamos el token si el backend lo da
+        iniciales: iniciales
       };
-      // 3. GUARDAMOS EN SESSION STORAGE
+      // Guardamos datos del usuario en sessionStorage
       sessionStorage.clear();
       sessionStorage.setItem('usuarioGlowcars', JSON.stringify(datosUsuario));
 
       setInfo({ texto: "¡Usuario identificado! Entrando en su perfil...", color: 'green' });
 
-      // 4. Redirigimos a /perfil 
+      // Redirigimos a perfil 
       setTimeout(() => navigate('/perfil'), 1000);
 
     } catch (error) {
@@ -55,7 +54,7 @@ function Login() {
       }
     }
   };
-
+  // Boton de olvido la contrasena
   const handleOlvidoPassword = (e) => {
     e.preventDefault();
     if (!email) {
@@ -64,7 +63,7 @@ function Login() {
       setInfo({ texto: `Instrucciones enviadas a ${email}`, color: 'green' });
     }
   };
-
+  // Redirigimos a registro 
   const goToRegistro = () => {
     navigate('/registro');
   };
@@ -77,7 +76,7 @@ function Login() {
       <main style={mainContentStyle}>
         <div style={formCardStyle}>
           <UserCircle2 size={60} color="#0A3A47" style={{ marginBottom: '20px' }} />
-
+          {/* --- FORMULARIO PARA LOGUEARSE --- */}
           <form style={formLayout} onSubmit={handleLogin}>
             <div style={inputGroupFull}>
               <label style={labelStyle}>Email</label>
@@ -115,7 +114,7 @@ function Login() {
                 ¿Has olvidado la contraseña?
               </a>
             </p>
-
+            {/* --- BOTON PARA REGISTRARSE--- */}
             <div style={{ display: 'flex', gap: '15px', marginTop: '10px' }}>
               <button type="submit" style={btnActionStyle}>Entrar</button>
               <button type="button" style={btnActionStyle} onClick={goToRegistro}>
@@ -134,29 +133,25 @@ function Login() {
 
       {/* --- FOOTER --- */}
       <Footer></Footer>
-
     </div>
   );
 }
 
 // --- ESTILOS ---
 const containerPageStyle = { display: 'flex', flexDirection: 'column', minHeight: '100vh', fontFamily: 'Poppins' };
-const mainContentStyle = {
-  flex: 1, backgroundColor: '#FFFFFF', display: 'flex', justifyContent: 'center', alignItems: 'center',
-  padding: '40px 20px'
+const mainContentStyle = {flex: 1, backgroundColor: '#FFFFFF', display: 'flex', justifyContent: 'center',
+  alignItems: 'center', padding: '40px 20px'
 };
 const formCardStyle = { width: '100%', maxWidth: '350px', padding: '20px', textAlign: 'center' };
 const formLayout = { display: 'flex', flexDirection: 'column', gap: '15px' };
 const inputGroupFull = { display: 'flex', flexDirection: 'column', gap: '5px', textAlign: 'left' };
 const labelStyle = { fontSize: '1rem', color: '#1A1A1A' };
 const inputStyle = { padding: '10px', border: '1px solid #A7B1B7', borderRadius: '10px', fontSize: '1rem', width: '100%' };
-const eyeButtonStyle = {
-  position: 'absolute', right: '5px', top: '50%', transform: 'translateY(-50%)', background: 'none',
+const eyeButtonStyle = {position: 'absolute', right: '5px', top: '50%', transform: 'translateY(-50%)', background: 'none',
   border: 'none', cursor: 'pointer', color: '#A7B1B7', display: 'flex', alignItems: 'center', padding: '0'
 };
-const btnActionStyle = {
-  flex: 1, backgroundColor: '#7CFFB2', color: '#1A1A1A', border: '1px solid #A7B1B7', padding: '10px',
-  borderRadius: '15px', fontSize: '1rem', cursor: 'pointer', boxShadow: '0px 4px 4px rgba(0,0,0,0.25)',fontFamily: 'inherit'
+const btnActionStyle = {flex: 1, backgroundColor: '#7CFFB2', color: '#1A1A1A', border: '1px solid #A7B1B7', padding: '10px',
+  borderRadius: '15px', fontSize: '1rem', cursor: 'pointer', boxShadow: '0px 4px 4px rgba(0,0,0,0.25)', fontFamily: 'inherit'
 };
 
 export default Login;

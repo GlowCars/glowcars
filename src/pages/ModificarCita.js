@@ -7,13 +7,12 @@ import axios from 'axios';
 import { CircleCheckBig } from 'lucide-react';
 
 const ModifcarCitas = () => {
+    // Variables
     const navigate = useNavigate();
     const location = useLocation();
     const citaData = location.state?.cita;
-    const [user, setUser] = useState({ id: '', nombre: 'Usuario', apellidos: '' });
     const [showModal, setShowModal] = useState(false);
-    const [vehiculos, setVehiculos] = useState([]);
-
+    // Formato fecha
     const formatoFecha = (fechaGMT) => {
         if (!fechaGMT) return '';
 
@@ -25,11 +24,11 @@ const ModifcarCitas = () => {
         const month = String(date.getUTCMonth() + 1).padStart(2, '0');
         const day = String(date.getUTCDate()).padStart(2, '0');
 
-        // DEBE SER ESTE ORDEN: AAAA-MM-DD
+        // Orden: AAAA-MM-DD
         return `${year}-${month}-${day}`;
     };
 
-    // 1. ESTADO INICIAL: Cargamos los datos recibidos
+    // Cargamos los datos de cita recibidos
     const [formCita, setFormCita] = useState({
         id_cita: citaData?.id_cita,
         vehiculo: citaData?.marca + " " + citaData?.modelo,
@@ -38,19 +37,8 @@ const ModifcarCitas = () => {
         motivo: citaData?.motivo,
         estado: citaData?.estado_cita
     });
-
+    // Cogemos los datos de usuario del sessionStorage
     useEffect(() => {
-        const session = sessionStorage.getItem('usuarioGlowcars');
-        if (session) {
-            const sessionParsed = JSON.parse(session);
-            setUser({
-                id: sessionParsed.id,
-                nombre: sessionParsed.nombre,
-                apellidos: sessionParsed.apellidos
-            });
-            fetchDatos(sessionParsed.id);
-        }
-
         if (!citaData) {
             navigate('/perfil');
         }
@@ -59,21 +47,10 @@ const ModifcarCitas = () => {
     const handleChange = (e) => {
         setFormCita({ ...formCita, [e.target.name]: e.target.value });
     };
-    // --- FUNCIÓN DE BÚSQUEDA DE DATOS ---
-    const fetchDatos = async (idUser) => {
-        try {
-            const urlVehiculos = 'http://localhost:5000/vehiculos';
-            const resVehiculos = await axios.post(urlVehiculos, { idUser });
-            setVehiculos(resVehiculos.data);
 
-        } catch (error) {
-            console.error("Error al obtener datos:", error);
-        } finally {
-        }
-    };
     const handleUpdate = async (e) => {
         e.preventDefault();
-
+        // Llamamos al servicio updateCita segun el id_cita para actualizar la cita y guardar en BBDD
         try {
             const urlUpdateCita = `http://localhost:5000/updateCita/${formCita.id_cita}`;
             const id_cita = formCita.id_cita
@@ -92,7 +69,7 @@ const ModifcarCitas = () => {
             alert("No se pudo modificar la cita");
         }
     };
-
+    // Boton aceptar y redirigue el perfil cerrando la modal
     const handleAccept = () => {
         setShowModal(false);
         navigate('/perfil');
@@ -186,7 +163,7 @@ const ModifcarCitas = () => {
             </main>
 
             <Footer />
-
+            {/* --- VENTANA MODAL --- */}
             {showModal && (
                 <div style={modalOverlayStyle}>
                     <div style={modalContentStyle}>
@@ -213,11 +190,18 @@ const modalOverlayStyle = {
     backgroundColor: 'rgba(0, 0, 0, 0.5)', display: 'flex', justifyContent: 'center', alignItems: 'center', zIndex: 2000
 };
 const modalContentStyle = {
-    backgroundColor: 'white', padding: '30px', borderRadius: '15px', width: '90%', maxWidth: '400px', textAlign: 'center'
+    backgroundColor: 'white', padding: '30px', borderRadius: '15px', width: '90%', maxWidth: '400px',
+    textAlign: 'center'
 };
 const modalButtonsStyle = { display: 'flex', justifyContent: 'center', marginTop: '20px' };
-const btnAceptarStyle = { padding: '10px 20px', borderRadius: '10px', border: '1px solid #A7B1B7', backgroundColor: '#FFFFFF', cursor: 'pointer' };
-const containerPageStyle = { display: 'flex', flexDirection: 'column', minHeight: '100vh', fontFamily: 'Poppins', backgroundColor: '#FFFFFF' };
+const btnAceptarStyle = {
+    padding: '10px 20px', borderRadius: '10px', border: '1px solid #A7B1B7',
+    backgroundColor: '#FFFFFF', cursor: 'pointer'
+};
+const containerPageStyle = {
+    display: 'flex', flexDirection: 'column', minHeight: '100vh', fontFamily: 'Poppins',
+    backgroundColor: '#FFFFFF'
+};
 const mainContentStyle = { flex: 1, display: 'flex', justifyContent: 'center', padding: '40px 20px' };
 const formWrapper = { width: '100%', maxWidth: '400px', textAlign: 'center' };
 const userHeader = { display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px', marginBottom: '30px' };
@@ -225,10 +209,13 @@ const formTitleStyle = { margin: 0, fontSize: '1.4rem', color: colors.formTitle,
 const formStyle = { fontFamily: 'Arial, sans-serif', display: 'flex', flexDirection: 'column', gap: '20px' };
 const inputGroup = { display: 'flex', flexDirection: 'column', gap: '5px', textAlign: 'left' };
 const labelStyle = { color: '#1A1A1A ', fontSize: '1.1rem' };
-const inputStyle = { padding: '12px', border: '1px solid #A7B1B7', borderRadius: '15px', fontSize: '1rem', color: '#1A1A1A ', backgroundColor: 'white' };
+const inputStyle = {
+    padding: '12px', border: '1px solid #A7B1B7', borderRadius: '15px', fontSize: '1rem', color: '#1A1A1A ',
+    backgroundColor: 'white'
+};
 const btnSolicitarStyle = {
-    backgroundColor: '#7CFFB2', border: '1px solid #A7B1B7', padding: '14px', borderRadius: '20px', fontSize: '1.1rem',
-    cursor: 'pointer', marginTop: '10px', boxShadow: '0px 2px 4px rgba(0,0,0,0.1)'
+    backgroundColor: '#7CFFB2', border: '1px solid #A7B1B7', padding: '14px', borderRadius: '20px',
+    fontSize: '1.1rem', cursor: 'pointer', marginTop: '10px', boxShadow: '0px 2px 4px rgba(0,0,0,0.1)'
 };
 
 export default ModifcarCitas;

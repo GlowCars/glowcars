@@ -8,19 +8,17 @@ import axios from 'axios';
 import vehiculo from '../images/vehiculo.avif';
 
 const Registro = () => {
+    // Variables
     const navigate = useNavigate();
     const [showPassword, setShowPassword] = useState(false);
-
-    // ESTADOS PARA CAPTURAR LOS DATOS
     const [datosCliente, setDatosCliente] = useState({
         nombre: '', apellidos: '', telefono: '', email: '', password: ''
     });
-
     const [datosVehiculo, setDatosVehiculo] = useState({
         matricula: '', marca: '', modelo: '', anio: '', bastidor: ''
     });
 
-    // FUNCIONES PARA ACTUALIZAR LOS CAMPOS
+    // Funciones para actualizar campos
     const handleCambioCliente = (e) => {
         setDatosCliente({ ...datosCliente, [e.target.name]: e.target.value });
     };
@@ -29,7 +27,7 @@ const Registro = () => {
         setDatosVehiculo({ ...datosVehiculo, [e.target.name]: e.target.value });
     };
 
-    // FUNCIÓN DE ENVÍO FINAL Y GUARDADO DE SESIÓN
+    // Funcion envio final y guardado de sesion
     const handleRegistro = async (e) => {
         e.preventDefault();
 
@@ -37,7 +35,9 @@ const Registro = () => {
             cliente: datosCliente,
             vehiculo: datosVehiculo
         };
-
+        /* Llamamos al servicio checkUser?email=${email} 
+         - comprobamos el email con la BBDD
+         - si no hay concidencia registramos */
         try {
             const email = registroCompleto.cliente.email;
             const urlCheck = `http://localhost:5000/checkUser?email=${email}`;
@@ -46,6 +46,7 @@ const Registro = () => {
             if (resCheck.status === 200) {
                 alert(resCheck.data.mensaje);
             } else if (resCheck.status === 201) {
+                // Llamamos al servicio createUser para crear el nuevo usuario y guardar en la BBDD
                 const urlCreate = `http://localhost:5000/createUser`;
                 const nombre = registroCompleto.cliente.nombre;
                 const apellidos = registroCompleto.cliente.apellidos;
@@ -55,7 +56,7 @@ const Registro = () => {
                 const fecha_registro = new Date();
                 const resCreate = await axios.post(urlCreate, { nombre, apellidos, telefono, email, password, rol, fecha_registro });
                 const id_new_user = resCreate.data.id;
-
+                // Llamamos al servicio createCar para crear el nuevo vehiculo y guardar en la BBDD
                 const urlCreateCar = `http://localhost:5000/createCar`;
                 const matricula = registroCompleto.vehiculo.matricula;
                 const marca = registroCompleto.vehiculo.marca;
@@ -65,6 +66,7 @@ const Registro = () => {
                 const resCreateCar = await axios.post(urlCreateCar, { id_new_user, matricula, marca, modelo, anio, bastidor });
                 const id_new_car = resCreateCar.data.id
                 console.log(id_new_car)
+                // Llamamos al servicio login para loguerse en la app automaticamente
                 const url = 'http://localhost:5000/login';
                 const respuesta = await axios.post(url, { email, password });
                 const datosUsuario = {
@@ -74,13 +76,10 @@ const Registro = () => {
                     nombre: respuesta.data.nombre,
                     telefono: respuesta.data.telefono,
                     rol: respuesta.data.rol,
-                    fecha_registro: respuesta.data.fecha_registro,
-                    isLoggedIn: true,
-                    token: respuesta.data.token || 'fake-token-123' // Guardamos el token si el backend lo da
+                    fecha_registro: respuesta.data.fecha_registro
                 };
 
-                // GUARDAMOS EN SESSION STORAGE
-                // Importante: Convertir a String porque el storage no acepta objetos directamente
+                // Guardamos los datos del usuario en sessionStorage
                 sessionStorage.setItem('usuarioGlowcars', JSON.stringify(datosUsuario));
             }
             navigate('/perfil');
@@ -149,7 +148,7 @@ const Registro = () => {
                         </div>
                     </div>
 
-                    {/* LA RAYA VERTICAL */}
+                    {/* RAYA VERTICAL */}
                     <div style={verticalLineStyle}></div>
 
                     {/* SECCIÓN VEHÍCULO */}
@@ -193,7 +192,6 @@ const Registro = () => {
 
             {/* --- FOOTER --- */}
             <Footer></Footer>
-
         </div>
     );
 };
@@ -218,7 +216,7 @@ const gridRegistroStyle = {
 };
 const formSideStyle = { display: 'flex', flexDirection: 'column', gap: '10px', alignItems: 'center', fontFamily: 'Arial, sans-serif' };
 const formHeaderStyle = { display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '15px' };
-const formTitleStyle = { margin: 0, fontSize: '1.4rem', color: colors.formTitle, fontWeight: 'bold', color: '#0A3A47' };
+const formTitleStyle = { margin: 0, fontSize: '1.4rem', fontWeight: 'bold', color: '#0A3A47' };
 const inputGroupStyle = { display: 'flex', flexDirection: 'column', gap: '5px', alignItems: 'flex-start', width: '100%' };
 const labelStyle = { fontSize: '0.9rem', color: colors.formTitle, fontWeight: 'bold' };
 const inputStyle = {
@@ -230,11 +228,6 @@ const btnRegistroStyle = {
     backgroundColor: colors.btnRegistro, color: colors.formTitle, border: '1px solid #A7B1B7', padding: '10px 30px',
     borderRadius: '20px', fontSize: '0.95rem', cursor: 'pointer', fontWeight: 'bold', boxShadow: '0 4px 6px rgba(0,0,0,0.1)'
 };
-const verticalLineStyle = {
-    backgroundColor: '#0A3A47',
-    width: '1px',
-    height: '100%',
-    opacity: '0.5',
-    alignSelf: 'stretch'
-};
+const verticalLineStyle = { backgroundColor: '#0A3A47', width: '1px', height: '100%', opacity: '0.5', alignSelf: 'stretch' };
+
 export default Registro;

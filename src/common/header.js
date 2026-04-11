@@ -4,6 +4,7 @@ import { Users, Wrench, ThumbsUp, UserCircle, ChevronDown, LogOut, User } from '
 import miLogo from '../images/logo.png';
 
 const Header = () => {
+    // Variables
     const navigate = useNavigate();
     const location = useLocation();
     const [user, setUser] = useState({});
@@ -11,12 +12,17 @@ const Header = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
 
     useEffect(() => {
+        // Recoge el usuario del sessionStorage
         const session = sessionStorage.getItem('usuarioGlowcars');
+        // Setea a true la variable isLoggedIn si existe sesion y almacena los datos en user
         if (session) {
             setIsLoggedIn(true);
             const userData = JSON.parse(session);
             setUser(userData);
         } else {
+            /* En caso de que no es logado 
+            dependiendo de la ruta en la que estemos 
+            mantenemos ruta o rediguiremos al login */
             switch (location.pathname) {
                 case '/perfil':
                 case '/altaVehiculo':
@@ -37,19 +43,29 @@ const Header = () => {
                     break;
             }
         }
-    }, []);
+    }, [location.pathname, navigate]);
 
+    /* Boton cerrar sesion: 
+        - elimina el usuario de sessionStorage
+        - setea tIsLoggedIn a falso 
+        - redirige a la Home
+    */
     const handleLogout = (e) => {
         e.stopPropagation();
         sessionStorage.removeItem('usuarioGlowcars');
         setIsLoggedIn(false);
         navigate('/home');
     };
+    /* Boton ver pefil:
+        - redirige a perfil
+    */
     const handleToPerfile = (e) => {
         e.stopPropagation();
         navigate('/perfil');
     };
-
+    /* Variable de estilos dinamicos que va en funcion de si
+        esta activo o no
+    */
     const navLinkStyle = ({ isActive }) => ({
         textDecoration: 'none',
         display: 'flex',
@@ -63,7 +79,9 @@ const Header = () => {
     });
 
     return (
+
         <header style={headerStyle}>
+            {/* CABECERA */}
             <div style={{ ...brandStyle, cursor: 'pointer' }} onClick={() => navigate('/home')}>
                 <img src={miLogo} alt="Logo" style={{ width: '45px', height: '45px' }} />
                 <div>
@@ -78,7 +96,7 @@ const Header = () => {
                 <NavLink to="/resenas" style={navLinkStyle}><ThumbsUp size={18} /> Reseñas</NavLink>
             </nav>
 
-            {/* USUARIO CON DROPDOWN */}
+            {/* LOG IN */}
             <div style={userWrapper}>
                 {isLoggedIn ? (
                     // Usamos un Fragment (<>) para agrupar el badge y el menú
@@ -117,7 +135,7 @@ const Header = () => {
 
 // --- ESTILOS ---
 const headerStyle = {
-    backgroundColor: '#0A3A47', color: 'white', padding: '10px 50px', display: 'flex',
+    backgroundColor: '#0A3A47', padding: '10px 50px', display: 'flex',
     justifyContent: 'space-between', alignItems: 'center', position: 'relative', color: '#FFFFFF'
 };
 const brandStyle = { display: 'flex', alignItems: 'center', gap: '10px' };

@@ -6,30 +6,22 @@ import Footer from '../common/footer.js';
 import axios from 'axios';
 import { CircleCheckBig } from 'lucide-react';
 
-
 const ModificarResena = () => {
+    // Variables
     const navigate = useNavigate();
     const location = useLocation();
-    const [user, setUser] = useState({ nombre: 'Usuario', email: '' });
     const [showModal, setShowModal] = useState(false);
     const resenaData = location.state?.resena;
 
-    // 1. ESTADOS: Inicializamos con los datos de la reseña recibida
+    // Inicializamos con los datos de la resena recibida
     const [resenaUpdate, setResenaUpdate] = useState({
         calificacion: resenaData?.calificacion,
         titulo: resenaData?.titulo,
         comentario: resenaData?.texto,
         id_resena: resenaData?.id_resena
     });
-
+    // Cogemos los datos de usuario del sessionStorage
     useEffect(() => {
-        const session = sessionStorage.getItem('usuarioGlowcars');
-        const sessionParsed = JSON.parse(session)
-        setUser({
-            id: sessionParsed.id,
-            nombre: sessionParsed.nombre,
-            apellidos: sessionParsed.apellidos
-        });
         if (!resenaData) {
             navigate('/resenas');
         }
@@ -43,10 +35,9 @@ const ModificarResena = () => {
         setResenaUpdate({ ...resenaUpdate, calificacion: rating });
     };
 
-    // 3. FUNCIÓN DE ENVÍO (UPDATE)
     const handleRegistro = async (e) => {
         e.preventDefault();
-
+        // Llamamos al servicio updateResena para actualizar la resena y guardar en BBDD
         try {
             const urlUpdate = `http://localhost:5000/updateResena/${resenaUpdate.id_resena}`;
             const calificacion = resenaUpdate.calificacion;
@@ -63,7 +54,7 @@ const ModificarResena = () => {
             alert("No se pudieron guardar los cambios.");
         }
     };
-
+    // Boton aceptar y redirigue a resenas cerrando la modal
     const handleAccept = async (e) => {
         setShowModal(false);
         navigate('/resenas');
@@ -74,7 +65,7 @@ const ModificarResena = () => {
             {/* --- CABECERA --- */}
             <Header></Header>
 
-            {/* --- CUERPO DEL FORMULARIO --- */}
+            {/* --- FORMULARIO --- */}
             <main style={mainContentStyle}>
                 <div style={formWrapperStyle}>
                     <div style={sectionHeader}>
@@ -101,7 +92,7 @@ const ModificarResena = () => {
 
                         <div style={inputGroupStyle}>
                             <label style={labelStyle}>Titulo</label>
-                            <input type="text" name="titulo" placeholder="Titulo" 
+                            <input type="text" name="titulo" placeholder="Titulo"
                                 value={resenaUpdate.titulo}
                                 onChange={handleCambioResena} style={inputStyle} required />
                             <label style={labelStyle}>Comentario</label>
@@ -124,7 +115,7 @@ const ModificarResena = () => {
 
             {/* --- FOOTER --- */}
             <Footer></Footer>
-
+            {/* --- VENTANA MODAL --- */}
             {showModal && (
                 <div style={modalOverlayStyle}>
                     <div style={modalContentStyle}>
@@ -149,8 +140,8 @@ const ModificarResena = () => {
 
 // --- ESTILOS ---
 const colors = {
-    header: '#0A3A47', brand: '#7CFFB2', formTitle: '#1A1A1A', inputBorder: '#A7B1B7',
-    inputBg: '#FFFFFF', btnRegistro: '#7CFFB2'
+    header: '#0A3A47', brand: '#7CFFB2', formTitle: '#1A1A1A', inputBorder: '#A7B1B7', inputBg: '#FFFFFF',
+    btnRegistro: '#7CFFB2'
 };
 const containerPageStyle = { display: 'flex', flexDirection: 'column', minHeight: '100vh', fontFamily: 'Arial, sans-serif' };
 const mainContentStyle = { flex: 1, display: 'flex', justifyContent: 'center', padding: '40px 20px', backgroundColor: '#FFFFFF' };
@@ -170,48 +161,24 @@ const textareaStyle = {
 };
 const btnSubmitStyle = {
     backgroundColor: '#7CFFB2', color: '#000', border: '1px solid #A7B1B7', padding: '12px',
-    borderRadius: '25px', cursor: 'pointer', fontWeight: 'bold', display: 'flex',
-    alignItems: 'center', justifyContent: 'center', gap: '10px', marginTop: '10px'
+    borderRadius: '25px', cursor: 'pointer', fontWeight: 'bold', display: 'flex', alignItems: 'center',
+    justifyContent: 'center', gap: '10px', marginTop: '10px'
 };
 const inputStyle = {
     padding: '10px', border: `1px solid ${colors.inputBorder}`, borderRadius: '10px', backgroundColor: colors.inputBg,
     fontSize: '1rem', width: '100%', boxSizing: 'border-box'
 };
 const modalOverlayStyle = {
-    position: 'fixed',
-    top: 0,
-    left: 0,
-    width: '100%',
-    height: '100%',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    zIndex: 2000 
+    position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    display: 'flex', justifyContent: 'center', alignItems: 'center', zIndex: 2000
 };
-
 const modalContentStyle = {
-    backgroundColor: 'white',
-    padding: '30px',
-    borderRadius: '15px',
-    width: '90%',
-    maxWidth: '400px',
-    textAlign: 'center',
-    boxShadow: '0 4px 15px rgba(0,0,0,0.2)'
+    backgroundColor: 'white', padding: '30px', borderRadius: '15px', width: '90%', maxWidth: '400px',
+    textAlign: 'center', boxShadow: '0 4px 15px rgba(0,0,0,0.2)'
 };
-
-const modalButtonsStyle = {
-    display: 'flex',
-    justifyContent: 'center',
-    gap: '15px',
-    marginTop: '20px'
-};
-
+const modalButtonsStyle = { display: 'flex', justifyContent: 'center', gap: '15px', marginTop: '20px' };
 const btnAceptarStyle = {
-    padding: '10px 20px',
-    borderRadius: '10px',
-    border: '1px solid #A7B1B7',
-    backgroundColor: '#FFFFFF',
+    padding: '10px 20px', borderRadius: '10px', border: '1px solid #A7B1B7', backgroundColor: '#FFFFFF',
     cursor: 'pointer'
 };
 export default ModificarResena;

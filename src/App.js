@@ -16,7 +16,7 @@ import ModificarCita from './pages/ModificarCita';
 import NewResena from './pages/NewResena';
 import ModificarResena from './pages/ModificarResena';
 
-{/*  --- COMPONENTE DE PROTECCIÓN Verifica si existe el usuario en sessionStorage --- */ }
+//  --- COMPONENTE DE PROTECCIÓN Verifica si existe el usuario en sessionStorage ---
 const ProtectedRoute = ({ children }) => {
   const user = sessionStorage.getItem('usuarioGlowcars');
 

@@ -8,13 +8,12 @@ import axios from 'axios';
 import { CircleCheckBig } from 'lucide-react';
 
 const Perfil = () => {
+    // Variables
     const navigate = useNavigate();
     const [showModal, setShowModal] = useState(false);
     const [showSuccessModal, setShowSuccessModal] = useState(false);
     const [showErrorModal, setShowErrorModal] = useState(false);
     const [vehiculoSeleccionado, setVehiculoSeleccionado] = useState(null);
-
-    // --- NUEVOS ESTADOS PARA DATOS ---
     const [vehiculos, setVehiculos] = useState([]);
     const [citas, setCitas] = useState([]);
 
@@ -24,8 +23,9 @@ const Perfil = () => {
         setShowModal(true);
     };
 
-    // Función que borra realmente
+    // Función de borrado de vehiculo
     const confirmarBorrado = async () => {
+        // Llamamos al servicio deleteCar por su id_vehiculo para eliminar el vehiculo y guardar en BBDD
         try {
             await axios.delete(`http://localhost:5000/deleteCar/${vehiculoSeleccionado.id_vehiculo}`);
             setVehiculos(prev => prev.filter(v => v.id_vehiculo !== vehiculoSeleccionado.id_vehiculo));
@@ -36,7 +36,7 @@ const Perfil = () => {
             setShowErrorModal(true);
         }
     };
-
+    // Cogemos los datos de usuario del sessionStorage
     useEffect(() => {
         const session = sessionStorage.getItem('usuarioGlowcars');
         if (session) {
@@ -44,17 +44,17 @@ const Perfil = () => {
             // Una vez tenemos el usuario, buscamos sus datos específicos
             fetchDatos(userData.id);
         } else {
-            navigate('/login'); // Redirigir si no hay sesión
+            navigate('/login');
         }
-    }, []);
+    }, [navigate]);
 
-    // --- FUNCIÓN DE BÚSQUEDA DE DATOS ---
     const fetchDatos = async (idUser) => {
         try {
+            //Llamamos al servicio vehiculos para obtener los datos
             const urlVehiculos = 'http://localhost:5000/vehiculos';
             const resVehiculos = await axios.post(urlVehiculos, { idUser });
             setVehiculos(resVehiculos.data);
-
+            //Llamamos al servicio citas para obtener los datos
             const urlCitas = 'http://localhost:5000/citas';
             const resCitas = await axios.post(urlCitas, { idUser });
             setCitas(resCitas.data);
@@ -168,7 +168,7 @@ const Perfil = () => {
 
             {/* --- FOOTER --- */}
             < Footer ></Footer >
-
+            {/* --- VENTANAS MODALES --- */}
             {showModal && (
                 <div style={modalOverlayStyle}>
                     <div style={modalContentStyle}>
@@ -234,8 +234,7 @@ const Perfil = () => {
 
 // --- ESTILOS ---
 const containerPageStyle = {
-    display: 'flex', flexDirection: 'column', minHeight: '100vh', fontFamily: 'Poppins',
-    backgroundColor: '#FFFFFF'
+display: 'flex', flexDirection: 'column', minHeight: '100vh', fontFamily: 'Poppins', backgroundColor: '#FFFFFF'
 };
 const mainContentStyle = { flex: 1, display: 'flex', justifyContent: 'center', padding: '40px 20px' };
 const contentWrapper = { width: '100%', maxWidth: '900px' };
@@ -254,57 +253,25 @@ const btnAddCarStyle = {
     fontFamily: 'Poppins'
 };
 const modalOverlayStyle = {
-    position: 'fixed',
-    top: 0,
-    left: 0,
-    width: '100%',
-    height: '100%',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    zIndex: 2000
+    position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    display: 'flex', justifyContent: 'center', alignItems: 'center', zIndex: 2000
 };
-
 const modalContentStyle = {
-    backgroundColor: 'white',
-    padding: '30px',
-    borderRadius: '15px',
-    width: '90%',
-    maxWidth: '400px',
-    textAlign: 'center',
-    boxShadow: '0 4px 15px rgba(0,0,0,0.2)'
+    backgroundColor: 'white', padding: '30px', borderRadius: '15px', width: '90%', maxWidth: '400px',
+    textAlign: 'center', boxShadow: '0 4px 15px rgba(0,0,0,0.2)'
 };
-
-const modalButtonsStyle = {
-    display: 'flex',
-    justifyContent: 'center',
-    gap: '15px',
-    marginTop: '20px'
-};
-
+const modalButtonsStyle = { display: 'flex', justifyContent: 'center', gap: '15px', marginTop: '20px' };
 const btnCancelarStyle = {
-    padding: '10px 20px',
-    borderRadius: '10px',
-    border: '1px solid #A7B1B7',
-    backgroundColor: '#FFFFFF',
+    padding: '10px 20px', borderRadius: '10px', border: '1px solid #A7B1B7', backgroundColor: '#FFFFFF',
     cursor: 'pointer'
 };
-
 const btnEliminarStyle = {
-    padding: '10px 20px',
-    borderRadius: '10px',
-    border: 'none',
-    backgroundColor: '#ff4d4d',
-    color: 'white',
-    fontWeight: 'bold',
-    cursor: 'pointer'
+    padding: '10px 20px', borderRadius: '10px', border: 'none', backgroundColor: '#ff4d4d', color: 'white',
+    fontWeight: 'bold', cursor: 'pointer'
 };
 const btnAceptarStyle = {
-    padding: '10px 20px',
-    borderRadius: '10px',
-    border: '1px solid #A7B1B7',
-    backgroundColor: '#FFFFFF',
+    padding: '10px 20px', borderRadius: '10px', border: '1px solid #A7B1B7', backgroundColor: '#FFFFFF',
     cursor: 'pointer'
 };
+
 export default Perfil;

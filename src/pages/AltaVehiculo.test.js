@@ -45,7 +45,7 @@ describe('Pruebas Unitarias - Alta de Vehículo', () => {
   });
 
   test('debe mostrar el modal de confirmación cuando el registro es exitoso', async () => {
-    // Simulamos respuesta 201 (Created) de la API
+    // Simulamos respuesta 201 Created de la API
     axios.post.mockResolvedValueOnce({ status: 201 });
 
     render(
@@ -64,7 +64,7 @@ describe('Pruebas Unitarias - Alta de Vehículo', () => {
     // Enviamos el formulario
     fireEvent.click(screen.getByRole('button', { name: /Añadir/i }));
 
-    // Esperamos a que aparezca el mensaje del modal
+    // Esperamos a que aparezca el mensaje del modal 
     await waitFor(() => {
       expect(screen.getByText(/Alta de vehículo confirmada/i)).toBeInTheDocument();
     });

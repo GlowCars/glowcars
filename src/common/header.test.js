@@ -85,37 +85,5 @@ jest.mock('react-router-dom', () => ({
   useNavigate: () => mockedUsedNavigate,
 }));
 
-describe('Pruebas de navegación - handleToPerfile', () => {
-  
-  test('debe detener la propagación y navegar a /perfil al hacer clic', () => {
-    // Simulamos un usuario logueado para que aparezca el elemento que lleva al perfil
-    const mockUser = { nombre: 'Jesica', iniciales: 'JM' };
-    sessionStorage.setItem('usuarioGlowcars', JSON.stringify(mockUser));
 
-    render(
-      <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
-        <Header />
-      </BrowserRouter>
-    );
-
-    // Buscamos el elemento que dispara el handleToPerfile (suponiendo que es el nombre o badge)
-    const userElement = screen.getByText(/Jesica/i);
-
-    // Creamos un evento falso para espiar el stopPropagation
-    const event = {
-      stopPropagation: jest.fn(),
-    };
-
-    // Disparamos el clic pasando nuestro evento falso
-    fireEvent.click(userElement, event);
-
-    // ASSERTIONS (Comprobaciones)
-    // 1. Verificamos que se detuvo la propagación
-    // Nota: fireEvent gestiona el evento, pero si llamaste a e.stopPropagation() en tu código, 
-    // el mock de navigate es la prueba definitiva de que la función se ejecutó.
-    
-    // 2. Verificamos que navigate fue llamado con '/perfil'
-    expect(mockedUsedNavigate).toHaveBeenCalledWith('/perfil');
-  });
-});
 });

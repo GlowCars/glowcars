@@ -7,9 +7,8 @@ import reparaciones from '../images/reparaciones.png';
 import presupuesto from '../images/presupuesto.png';
 
 const Servicios = () => {
+  // Variables
   const navigate = useNavigate();
-
-  // Función genérica para redirigir pasando el tipo de servicio
   const solicitarCita = (nombreServicio) => {
     navigate('/citas', { state: { tipoServicio: nombreServicio } });
   };
@@ -23,7 +22,7 @@ const Servicios = () => {
       <main style={mainContentStyle}>
         <div style={gridServicesStyle}>
 
-          {/* TARJETA 1: MANTENIMIENTO */}
+          {/* MANTENIMIENTO */}
           <div style={cardServiceStyle}>
             <div style={cardTextStyle}>
               <h2 style={cardTitleStyle}>Mantenimiento</h2>
@@ -41,7 +40,7 @@ const Servicios = () => {
             </button>
           </div>
 
-          {/* TARJETA 2: DIAGNÓSTICOS */}
+          {/* DIAGNÓSTICOS */}
           <div style={cardServiceStyle}>
             <div style={cardTextStyle}>
               <h2 style={cardTitleStyle}>Diagnósticos</h2>
@@ -59,7 +58,7 @@ const Servicios = () => {
             </button>
           </div>
 
-          {/* TARJETA 3: REPARACIONES */}
+          {/* REPARACIONES */}
           <div style={cardServiceStyle}>
             <div style={cardTextStyle}>
               <h2 style={cardTitleStyle}>Reparaciones</h2>
@@ -77,7 +76,7 @@ const Servicios = () => {
             </button>
           </div>
 
-          {/* TARJETA 4: PRESUPUESTOS */}
+          {/* PRESUPUESTOS */}
           <div style={cardServiceStyle}>
             <div style={cardTextStyle}>
               <h2 style={cardTitleStyle}>Presupuestos</h2>
@@ -100,18 +99,12 @@ const Servicios = () => {
 
       {/* --- FOOTER --- */}
       <Footer></Footer>
-
     </div>
   );
 };
 
 // --- ESTILOS ---
-const colors = {
-  header: '#0A3A47',
-  brand: '#7CFFB2',
-  textCard: '#1A1A1A',
-  btnCita: '#7CFFB2',
-};
+const colors = { header: '#0A3A47', brand: '#7CFFB2', textCard: '#1A1A1A', btnCita: '#7CFFB2' };
 const containerPageStyle = {
   display: 'flex', flexDirection: 'column', minHeight: '100vh', fontFamily: 'Poppins',
   backgroundColor: '#FFFFFF'
@@ -126,7 +119,10 @@ const cardServiceStyle = {
   display: 'flex', alignItems: 'flex-start', gap: '15px', boxShadow: '0 4px 10px rgba(0,0,0,0.1)', position: 'relative', width: '100%'
 };
 const cardTextStyle = { flex: 1, textAlign: 'left' };
-const cardTitleStyle = { borderBottom: '2px solid #A7B1B7', marginBottom: '30px', margin: '0 0 10px 0', fontSize: '1.3rem', color: colors.textCard, fontWeight: 'bold' };
+const cardTitleStyle = {
+  borderBottom: '2px solid #A7B1B7', marginBottom: '30px', margin: '0 0 10px 0', fontSize: '1.3rem',
+  color: colors.textCard, fontWeight: 'bold'
+};
 const cardDescStyle = { margin: 0, fontSize: '1.2rem', color: colors.textCard, lineHeight: '1.4', textAlign: 'justify' };
 const cardImgStyle = { width: '100px', height: '100px', borderRadius: '20px', objectFit: 'cover' };
 const btnPideCitaStyle = {

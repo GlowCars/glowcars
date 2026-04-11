@@ -8,17 +8,18 @@ import { CircleCheckBig } from 'lucide-react';
 
 
 const NewResena = () => {
+    // Variables
     const navigate = useNavigate();
     const [user, setUser] = useState({ nombre: 'Usuario', email: '' });
     const [showModal, setShowModal] = useState(false);
 
-    // Estado para el formulario
+    // Datos por defecto para el formulario
     const [resena, setResena] = useState({
         calificación: 5,
         titulo: '',
         comentario: ''
     });
-
+    // Cogemos los datos de usuario del sessionStorage
     useEffect(() => {
         const session = sessionStorage.getItem('usuarioGlowcars');
         if (session) {
@@ -46,7 +47,7 @@ const NewResena = () => {
                 titulo: resena.titulo,
                 fecha: new Date().toISOString()
             };
-
+            // Llamamos al servicio createResena para crear una nueva resena y guardar en BBDD
             const res = await axios.post('http://localhost:5000/createResena', resenaCompleta);
 
             if (res.status === 200 || res.status === 201) {
@@ -59,7 +60,7 @@ const NewResena = () => {
         }
     };
 
-
+    // Boton aceptar y redirigue a resenas cerrando la modal
     const handleAccept = async (e) => {
         setShowModal(false);
         navigate('/resenas');
@@ -70,7 +71,7 @@ const NewResena = () => {
             {/* --- CABECERA --- */}
             <Header></Header>
 
-            {/* --- CUERPO DEL FORMULARIO --- */}
+            {/* --- FORMULARIO --- */}
             <main style={mainContentStyle}>
                 <div style={formWrapperStyle}>
                     <div style={sectionHeader}>
@@ -118,7 +119,7 @@ const NewResena = () => {
 
             {/* --- FOOTER --- */}
             <Footer></Footer>
-
+            {/* --- VENTANA MODAL --- */}
             {showModal && (
                 <div style={modalOverlayStyle}>
                     <div style={modalContentStyle}>
@@ -164,48 +165,25 @@ const textareaStyle = {
 };
 const btnSubmitStyle = {
     backgroundColor: '#7CFFB2', color: '#1A1A1A', border: '1px solid #A7B1B7', padding: '12px',
-    borderRadius: '25px', cursor: 'pointer', fontWeight: 'bold', display: 'flex',
-    alignItems: 'center', justifyContent: 'center', gap: '10px', marginTop: '10px'
+    borderRadius: '25px', cursor: 'pointer', fontWeight: 'bold', display: 'flex', alignItems: 'center', justifyContent: 'center',
+    gap: '10px', marginTop: '10px'
 };
 const inputStyle = {
     padding: '10px', border: `1px solid ${colors.inputBorder}`, borderRadius: '10px', backgroundColor: colors.inputBg,
     fontSize: '1rem', width: '100%', boxSizing: 'border-box'
 };
 const modalOverlayStyle = {
-    position: 'fixed',
-    top: 0,
-    left: 0,
-    width: '100%',
-    height: '100%',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    zIndex: 2000
+    position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    display: 'flex', justifyContent: 'center', alignItems: 'center', zIndex: 2000
 };
-
 const modalContentStyle = {
-    backgroundColor: 'white',
-    padding: '30px',
-    borderRadius: '15px',
-    width: '90%',
-    maxWidth: '400px',
-    textAlign: 'center',
-    boxShadow: '0 4px 15px rgba(0,0,0,0.2)'
+    backgroundColor: 'white', padding: '30px', borderRadius: '15px', width: '90%', maxWidth: '400px',
+    textAlign: 'center', boxShadow: '0 4px 15px rgba(0,0,0,0.2)'
 };
-
-const modalButtonsStyle = {
-    display: 'flex',
-    justifyContent: 'center',
-    gap: '15px',
-    marginTop: '20px'
-};
-
+const modalButtonsStyle = { display: 'flex', justifyContent: 'center', gap: '15px', marginTop: '20px' };
 const btnAceptarStyle = {
-    padding: '10px 20px',
-    borderRadius: '10px',
-    border: '1px solid #A7B1B7',
-    backgroundColor: '#FFFFFF',
+    padding: '10px 20px', borderRadius: '10px', border: '1px solid #A7B1B7', backgroundColor: '#FFFFFF',
     cursor: 'pointer'
 };
+
 export default NewResena;

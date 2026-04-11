@@ -6,6 +6,7 @@ import cliente from '../images/cliente.jpg';
 import axios from 'axios';
 
 const Citas = () => {
+    // Variables
     const location = useLocation();
     const navigate = useNavigate();
     const [user, setUser] = useState({ id: '', nombre: 'Usuario', apellidos: '' });
@@ -42,7 +43,7 @@ const Citas = () => {
         }
     }, [servicioSeleccionado]);
 
-    // --- FUNCIÓN DE BÚSQUEDA DE DATOS ---
+    // Llamamos al servicio vehiculos para obtener los datos del vehiculo
     const fetchDatos = async (idUser) => {
         try {
             const urlVehiculos = 'http://localhost:5000/vehiculos';
@@ -59,10 +60,10 @@ const Citas = () => {
         setFormCita({ ...formCita, [e.target.name]: e.target.value });
     };
 
-    // FUNCIÓN DE ENVÍO FINAL Y GUARDADO DE SESIÓN
+    // Boton de registro y guardado de sesion
     const handleRegistro = async (e) => {
         e.preventDefault();
-
+        // Llamamos al servicio createCita para crear la cita y guardar en BBDD
         try {
             const urlCita = `http://localhost:5000/createCita`;
             const vehiculo = formCita.vehiculo;
@@ -71,7 +72,7 @@ const Citas = () => {
             const motivo = formCita.motivo;
             const idUser = formCita.idUser;
             console.log(formCita)
-            const resCreate = await axios.post(urlCita, { vehiculo, fecha, tipo, motivo, idUser });
+            await axios.post(urlCita, { vehiculo, fecha, tipo, motivo, idUser });
             navigate('/perfil');
 
         } catch (error) {
@@ -156,7 +157,6 @@ const Citas = () => {
 
             {/* --- FOOTER --- */}
             <Footer></Footer>
-
         </div>
     );
 };
@@ -170,17 +170,13 @@ const userNameStyle = { fontSize: '1.2rem', color: '#A7B1B7' };
 const formStyle = { display: 'flex', flexDirection: 'column', gap: '20px' };
 const inputGroup = { display: 'flex', flexDirection: 'column', gap: '5px', textAlign: 'left' };
 const labelStyle = { color: '#1A1A1A ', fontSize: '1.1rem' };
-const inputStyle = { padding: '12px', border: '1px solid #A7B1B7', borderRadius: '15px', fontSize: '1rem', color: '#1A1A1A ', fontFamily: 'inherit' };
+const inputStyle = {
+    padding: '12px', border: '1px solid #A7B1B7', borderRadius: '15px', fontSize: '1rem',
+    color: '#1A1A1A ', fontFamily: 'inherit'
+};
 const btnSolicitarStyle = {
-    backgroundColor: '#7CFFB2',
-    border: '1px solid #A7B1B7',
-    padding: '14px',
-    borderRadius: '20px',
-    fontSize: '1.1rem',
-    cursor: 'pointer',
-    marginTop: '10px',
-    boxShadow: '0px 2px 4px rgba(0,0,0,0.1)',
-    fontFamily: 'Arial, sans-serif'
+    backgroundColor: '#7CFFB2', border: '1px solid #A7B1B7', padding: '14px', borderRadius: '20px',
+    fontSize: '1.1rem', cursor: 'pointer', marginTop: '10px', boxShadow: '0px 2px 4px rgba(0,0,0,0.1)', fontFamily: 'Arial, sans-serif'
 };
 
 export default Citas;
