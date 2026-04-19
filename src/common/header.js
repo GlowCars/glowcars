@@ -12,6 +12,25 @@ const Header = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
 
     useEffect(() => {
+        const checkUserData = () => {
+            const session = sessionStorage.getItem('usuarioGlowcars');
+            if (session) {
+                const userData = JSON.parse(session);
+                setUser(userData);
+                setIsLoggedIn(true);
+            } else {
+                setIsLoggedIn(false);
+            }
+        };
+        // Escuchamos el evento personalizado que disparamos desde Perfil
+        window.addEventListener('storageUpdate', checkUserData);
+
+        return () => {
+            window.removeEventListener('storageUpdate', checkUserData);
+        };
+    }, []);
+
+    useEffect(() => {
         // Recoge el usuario del sessionStorage
         const session = sessionStorage.getItem('usuarioGlowcars');
         // Setea a true la variable isLoggedIn si existe sesion y almacena los datos en user

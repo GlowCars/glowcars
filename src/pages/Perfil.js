@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Calendar1, Pencil, Trash2 } from 'lucide-react';
+import { Calendar1, Pencil, Trash2, CircleCheckBig, UserPen } from 'lucide-react';
 import Header from '../common/header.js'
 import Footer from '../common/footer.js';
 import vehiculoIcono from '../images/vehiculo.avif';
 import axios from 'axios';
-import { CircleCheckBig } from 'lucide-react';
+
 
 const Perfil = () => {
     // Variables
@@ -16,6 +16,21 @@ const Perfil = () => {
     const [vehiculoSeleccionado, setVehiculoSeleccionado] = useState(null);
     const [vehiculos, setVehiculos] = useState([]);
     const [citas, setCitas] = useState([]);
+    const [datosCliente, setDatosCliente] = useState({
+        nombre: '', apellidos: '', telefono: '', email: '', password: ''
+    });
+    const [showModalUser, setShowModalUser] = useState(false);
+    const [showSuccessUserModal, setShowSuccessUserModal] = useState(false);
+
+    const handleModify = async (e) => {
+        e.preventDefault();
+    }
+
+    // Funciones para actualizar campos
+    const handleCambioCliente = (e) => {
+        setDatosCliente({ ...datosCliente, [e.target.name]: e.target.value });
+        console.log(datosCliente);
+    };
 
     // Función que abre el modal
     const abrirConfirmacion = (vehiculo) => {
@@ -43,6 +58,7 @@ const Perfil = () => {
             const userData = JSON.parse(session);
             // Una vez tenemos el usuario, buscamos sus datos específicos
             fetchDatos(userData.id);
+            fetchUser(userData.id)
         } else {
             navigate('/login');
         }
@@ -64,6 +80,45 @@ const Perfil = () => {
         } finally {
         }
     };
+    const fetchUser = async (idUser) => {
+        try {
+            //Llamamos al servicio usuarios para obtener los datos
+            const urlUsuario = `http://localhost:5000/readUser?user=${idUser}`;
+            const resUsuario = await axios.get(urlUsuario);
+            setDatosCliente(resUsuario.data);
+
+        } catch (error) {
+            console.error("Error al obtener datos:", error);
+        } finally {
+        }
+    };
+    const updateUser = async () => {
+        setShowModalUser(false);
+        try {
+
+            const session = JSON.parse(sessionStorage.getItem('usuarioGlowcars'));
+            const sessionId = session.id;
+            //Llamamos al servicio usuarios para obtener los datos
+            const urlUsuario = `http://localhost:5000/updateUser/${sessionId}`;
+            const nombre = datosCliente.nombre;
+            const apellidos = datosCliente.apellidos;
+            const telefono = datosCliente.telefono;
+            const email = datosCliente.email
+            const res = await axios.put(urlUsuario, { nombre, apellidos, telefono, email });
+
+            if (res.status === 200) {
+                // 1. Actualizamos el sessionStorage
+                const nuevaSesion = { ...session, nombre: nombre, apellidos: apellidos, telefono: telefono, email: email };
+                sessionStorage.setItem('usuarioGlowcars', JSON.stringify(nuevaSesion));
+                // 2. DISPARAMOS EL EVENTO para que el Header se entere
+                window.dispatchEvent(new Event('storageUpdate'));
+                setShowSuccessUserModal(true);
+            }
+        } catch (error) {
+            console.error("Error al obtener datos:", error);
+        } finally {
+        }
+    };
 
     return (
         <div style={containerPageStyle}>
@@ -72,6 +127,55 @@ const Perfil = () => {
 
             <main style={mainContentStyle}>
                 <div style={contentWrapper}>
+                    {/* SECCIÓN PERSONAL */}
+                    <section>
+                        <div style={sectionHeader}>
+                            <UserPen style={{ color: '#0A3A47', width: '25px' }}></UserPen>
+                            <h2 style={sectionTitle}>Datos personales</h2>
+                        </div>
+
+                        {/* MODIFICAR USUARIO */}
+                        <form onSubmit={handleModify} style={gridRegistroStyle}>
+                            <div style={{ display: 'flex' }}>
+                                <div style={{ width: '50%', display: 'grid', marginRight: '5px' }}>
+                                    <label style={labelStyle}>Nombre</label>
+                                    <input type="text" name="nombre" placeholder="Nombre" style={inputStyle}
+                                        value={datosCliente.nombre}
+                                        onChange={handleCambioCliente} required />
+                                </div>
+                                <div style={{ width: '50%', display: 'grid', marginLeft: '5px' }}>
+                                    <label style={labelStyle}>Apellidos</label>
+                                    <input type="text" name="apellidos" placeholder="Apellidos" style={inputStyle}
+                                        value={datosCliente.apellidos}
+                                        onChange={handleCambioCliente} required />
+                                </div>
+                            </div>
+                            <div style={{ display: 'flex' }}>
+                                <div style={{ width: '50%', display: 'grid', marginRight: '5px' }}>
+                                    <label style={labelStyle}>Teléfono</label>
+                                    <input type="number" name="telefono" placeholder="Teléfono" style={inputStyle}
+                                        value={datosCliente.telefono}
+                                        onChange={handleCambioCliente}
+                                        onInput={(e) => {
+                                            if (e.target.value.length > 9) {
+                                                e.target.value = e.target.value.slice(0, 9);
+                                            }
+                                        }} required />
+                                </div>
+                                <div style={{ width: '50%', display: 'grid', marginLeft: '5px' }}>
+                                    <label style={labelStyle}>Email</label>
+                                    <input type="email" name="email" placeholder="Email" style={inputStyle}
+                                        value={datosCliente.email}
+                                        onChange={handleCambioCliente} required />
+                                </div>
+                            </div>
+                            <div style={{ display: 'flex', justifyContent: 'right' }}>
+                                <button style={btnAddCarStyle} onClick={setShowModalUser}>
+                                    Modifcar datos
+                                </button>
+                            </div>
+                        </form>
+                    </section>
 
                     {/* SECCIÓN VEHÍCULO */}
                     <section style={sectionContainer}>
@@ -157,6 +261,7 @@ const Perfil = () => {
                                                 style={iconActionStyle}
                                                 onClick={() => navigate('/modificarCita', { state: { cita: c } })}
                                             />
+                                             <Trash2 size={18} style={iconActionStyle} onClick={() => abrirConfirmacion(c)} />
                                         </td>
                                     </tr>
                                 ))}
@@ -192,7 +297,8 @@ const Perfil = () => {
                         </div>
                     </div>
                 </div>
-            )}
+            )
+            }
             {showSuccessModal && (
                 <div style={modalOverlayStyle}>
                     <div style={modalContentStyle}>
@@ -210,7 +316,8 @@ const Perfil = () => {
                         </div>
                     </div>
                 </div>
-            )}
+            )
+            }
             {showErrorModal && (
                 <div style={modalOverlayStyle}>
                     <div style={modalContentStyle}>
@@ -227,14 +334,58 @@ const Perfil = () => {
                         </div>
                     </div>
                 </div>
-            )}
+            )
+            }
+            {showModalUser && (
+                <div style={modalOverlayStyle}>
+                    <div style={modalContentStyle}>
+                        <h3 style={{ color: '#1A1A1A' }}>Modificación de datos</h3>
+                        <p>Se va ha proceder a modficar los datos del perfil.</p>
+
+                        <div style={modalButtonsStyle}>
+                            <button
+                                onClick={() => updateUser()}
+                                style={btnAceptarStyle}
+                            >
+                                Aceptar
+                            </button>
+                            <button
+                                onClick={() => setShowModalUser(false)}
+                                style={btnCancelarStyle}
+                            >
+                                Cancelar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )
+            }
+            {showSuccessUserModal && (
+                <div style={modalOverlayStyle}>
+                    <div style={modalContentStyle}>
+                        <CircleCheckBig size={48} color="#7CFFB2" style={{ marginBottom: '15px' }} />
+                        <h3 style={{ color: '#1A1A1A' }}>Usuario moficado</h3>
+                        <p>El usuario ha sido modificado correctamente.</p>
+
+                        <div style={modalButtonsStyle}>
+                            <button
+                                onClick={() => setShowSuccessUserModal(false)}
+                                style={btnAceptarStyle}
+                            >
+                                Aceptar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )
+            }
         </div >
     );
 };
 
 // --- ESTILOS ---
 const containerPageStyle = {
-display: 'flex', flexDirection: 'column', minHeight: '100vh', fontFamily: 'Poppins', backgroundColor: '#FFFFFF'
+    display: 'flex', flexDirection: 'column', minHeight: '100vh', fontFamily: 'Poppins', backgroundColor: '#FFFFFF'
 };
 const mainContentStyle = { flex: 1, display: 'flex', justifyContent: 'center', padding: '40px 20px' };
 const contentWrapper = { width: '100%', maxWidth: '900px' };
@@ -273,5 +424,11 @@ const btnAceptarStyle = {
     padding: '10px 20px', borderRadius: '10px', border: '1px solid #A7B1B7', backgroundColor: '#FFFFFF',
     cursor: 'pointer'
 };
+const labelStyle = { color: '#1A1A1A ', fontSize: '1.1rem', textAlign: 'left' };
+const inputStyle = {
+    padding: '12px', border: '1px solid #A7B1B7', borderRadius: '15px', fontSize: '1rem', color: '#1A1A1A ',
+    backgroundColor: 'white', fontFamily: 'Poppins'
+};
+const gridRegistroStyle = { fontFamily: 'Poppins', display: 'flex', flexDirection: 'column', gap: '20px' };
 
 export default Perfil;

@@ -286,6 +286,54 @@ def check_user():
         print(f"Error en login: {e}")
         return jsonify({"error": "Error en el servidor"}), 500
 
+@app.route('/readUser', methods=['GET'])
+def read_user():
+    try:
+        idUser = request.args.get('user')
+
+        conexion = conectar_db()
+        cursor = conexion.cursor(dictionary=True)
+        
+        sql = "SELECT nombre, apellidos, telefono, email FROM usuarios WHERE id_usuario = %s "
+        cursor.execute(sql, (idUser,))
+        usuario = cursor.fetchone()
+        
+        cursor.close()
+        conexion.close()
+
+        return jsonify(usuario), 200
+       
+    except Exception as e:
+        print(f"Error al devolver usuario: {e}")
+        return jsonify({"error": "Error en el servidor"}), 500
+    
+@app.route('/updateUser/<int:id_user>', methods=['PUT'])
+def update_user(id_user):
+    try:
+        datos = request.json
+        nombre = datos.get('nombre')
+        apellidos = datos.get('apellidos')
+        telefono = datos.get('telefono')
+        email = datos.get('email')
+
+        conexion = conectar_db()
+        cursor = conexion.cursor()
+
+        sql = "UPDATE usuarios SET nombre = %s, apellidos = %s, telefono = %s, email = %s WHERE id_usuario = %s"
+        valores = (nombre, apellidos, telefono, email, id_user)
+        
+        cursor.execute(sql, valores)
+        conexion.commit()
+
+        cursor.close()
+        conexion.close()
+
+        return jsonify({"mensaje": "Usuario actualizado correctamente"}), 200
+
+    except Exception as e:
+        print(f"Error: {e}")
+        return jsonify({"error": str(e)}), 500
+    
 @app.route('/resena', methods=['GET'])
 def listar_resenas():
     try:
