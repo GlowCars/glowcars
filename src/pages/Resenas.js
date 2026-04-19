@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Star, PlusCircle } from 'lucide-react';
+import { Star, PlusCircle, Trash2, CircleCheckBig } from 'lucide-react';
 import Header from '../common/header.js'
 import Footer from '../common/footer.js';
 import axios from 'axios';
@@ -10,9 +10,18 @@ const Resenas = () => {
     // Variables
     const navigate = useNavigate();
     const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [showResenaModal, setShowResenaModal] = useState(false);
+    const [showSuccessModal, setShowSuccessModal] = useState(false);
     const [user, setUser] = useState({ id: '', nombre: '' });
     const [resenas, setResenas] = useState([]);
+    const [resenaSeleccionado, setResenaSeleccionado] = useState(null);
 
+
+    // Función que abre el modal
+    const abrirConfirmacionResena = (resena) => {
+        setResenaSeleccionado(resena);
+        setShowResenaModal(true);
+    };
     // Cogemos los datos de usuario del sessionStorage
     useEffect(() => {
         const data = JSON.parse(sessionStorage.getItem('usuarioGlowcars'));
@@ -51,7 +60,6 @@ const Resenas = () => {
         fetchResenas();
     }, []);
 
-
     // Formato de fecha
     const formatoFecha = (fechaGMT) => {
         if (!fechaGMT) return '';
@@ -68,6 +76,17 @@ const Resenas = () => {
         return `${day}-${month}-${year}`;
     };
 
+    const deleteResena = async () => {
+        try {
+            await axios.delete(`http://localhost:5000/deleteResena/${resenaSeleccionado.id_resena}`);
+            setResenas(prev => prev.filter(v => v.id_resena !== resenaSeleccionado.id_resena));
+            setShowResenaModal(false); // Cerramos el modal
+            setShowSuccessModal(true);
+        } catch (error) {
+            setShowResenaModal(false);
+        } finally {
+        }
+    };
     return (
         <div style={containerPageStyle}>
             {/* --- CABECERA --- */}
@@ -117,6 +136,12 @@ const Resenas = () => {
                                                 // Enviamos el objeto 'v' (el vehículo actual) a través del estado de navegación
                                                 onClick={() => navigate('/modificarResena', { state: { resena: r } })}
                                             />
+                                            <Trash2
+                                                size={18}
+                                                style={iconActionStyle}
+                                                // Enviamos el objeto 'v' (el vehículo actual) a través del estado de navegación
+                                                onClick={() => abrirConfirmacionResena(r)}
+                                            />
                                         </div>
                                     )}
                                 </div>
@@ -128,6 +153,51 @@ const Resenas = () => {
 
             {/* --- FOOTER --- */}
             <Footer></Footer>
+
+            {showResenaModal && (
+                <div style={modalOverlayStyle}>
+                    <div style={modalContentStyle}>
+                        <h3 style={{ color: '#1A1A1A' }}>Eliminación de reseña</h3>
+                        <p>Se va proceder a eliminar la reseña.</p>
+
+                        <div style={modalButtonsStyle}>
+                            <button
+                                onClick={() => deleteResena()}
+                                style={btnEliminarStyle}
+                            >
+                                Eliminar
+                            </button>
+                            <button
+                                onClick={() => setShowResenaModal(false)}
+                                style={btnCancelarStyle}
+                            >
+                                Cancelar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )
+            }
+
+            {showSuccessModal && (
+                <div style={modalOverlayStyle}>
+                    <div style={modalContentStyle}>
+                        <CircleCheckBig size={48} color="#7CFFB2" style={{ marginBottom: '15px' }} />
+                        <h3 style={{ color: '#1A1A1A' }}>Reseña eliminada</h3>
+                        <p>La reseña ha sido eliminada correctamente.</p>
+
+                        <div style={modalButtonsStyle}>
+                            <button
+                                onClick={() => setShowSuccessModal(false)}
+                                style={btnAceptarStyle}
+                            >
+                                Aceptar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )
+            }
         </div>
     );
 };
@@ -170,5 +240,27 @@ const avatarCircle = {
 const userName = { fontWeight: 'bold', fontSize: '0.9rem' };
 const userDate = { fontSize: '0.8rem', color: '#A7B1B7', textAlign: 'left' };
 const userEdit = { fontSize: '0.8rem', color: '#A7B1B7', textAlign: 'left', marginLeft: 'auto' };
+const modalOverlayStyle = {
+    position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    display: 'flex', justifyContent: 'center', alignItems: 'center', zIndex: 2000
+};
+const modalContentStyle = {
+    backgroundColor: 'white', padding: '30px', borderRadius: '15px', width: '90%', maxWidth: '400px',
+    textAlign: 'center', boxShadow: '0 4px 15px rgba(0,0,0,0.2)'
+};
+const modalButtonsStyle = { display: 'flex', justifyContent: 'center', gap: '15px', marginTop: '20px' };
+
+const btnAceptarStyle = {
+    padding: '10px 20px', borderRadius: '10px', border: '1px solid #A7B1B7', backgroundColor: '#FFFFFF',
+    cursor: 'pointer'
+};
+const btnCancelarStyle = {
+    padding: '10px 20px', borderRadius: '10px', border: 'none', backgroundColor: '#A7B1B7', color: 'white',
+    fontWeight: 'bold', cursor: 'pointer'
+};
+const btnEliminarStyle = {
+    padding: '10px 20px', borderRadius: '10px', border: 'none', backgroundColor: '#ff4d4d', color: 'white',
+    fontWeight: 'bold', cursor: 'pointer'
+};
 
 export default Resenas;

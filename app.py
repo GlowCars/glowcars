@@ -258,6 +258,50 @@ def delete_car(id_vehiculo):
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
+@app.route('/deleteCita/<int:id_cita>', methods=['DELETE'])
+def delete_cita(id_cita):
+    try:
+        conexion = conectar_db()
+        cursor = conexion.cursor(dictionary=True)
+
+        cursor.execute("DELETE FROM citas WHERE id_cita = %s", (id_cita,)) 
+        conexion.commit()
+
+        filas_borradas = cursor.rowcount
+
+        cursor.close()
+        conexion.close()
+
+        if filas_borradas == 0:
+            return jsonify({"mensaje": "No se encontró ningún vehículo con ese ID"}), 404
+
+        return jsonify({"mensaje": "Cita eliminada correctamente!"}), 200
+    
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+@app.route('/deleteResena/<int:id_resena>', methods=['DELETE'])
+def delete_resena(id_resena):
+    try:
+        conexion = conectar_db()
+        cursor = conexion.cursor(dictionary=True)
+
+        cursor.execute("DELETE FROM resenas WHERE id_resena = %s", (id_resena,)) 
+        conexion.commit()
+
+        filas_borradas = cursor.rowcount
+
+        cursor.close()
+        conexion.close()
+
+        if filas_borradas == 0:
+            return jsonify({"mensaje": "No se encontró ninguna reseña con ese ID"}), 404
+
+        return jsonify({"mensaje": "Reseña eliminada correctamente!"}), 200
+    
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
 @app.route('/checkUser', methods=['GET'])
 def check_user():
     try:

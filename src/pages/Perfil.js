@@ -6,14 +6,16 @@ import Footer from '../common/footer.js';
 import vehiculoIcono from '../images/vehiculo.avif';
 import axios from 'axios';
 
-
 const Perfil = () => {
     // Variables
     const navigate = useNavigate();
     const [showModal, setShowModal] = useState(false);
+    const [showCitaModal, setShowCitaModal] = useState(false);
     const [showSuccessModal, setShowSuccessModal] = useState(false);
+    const [showSuccessCitaModal, setShowSuccessCitaModal] = useState(false);
     const [showErrorModal, setShowErrorModal] = useState(false);
     const [vehiculoSeleccionado, setVehiculoSeleccionado] = useState(null);
+    const [citaSeleccionado, setCitaSeleccionado] = useState(null);
     const [vehiculos, setVehiculos] = useState([]);
     const [citas, setCitas] = useState([]);
     const [datosCliente, setDatosCliente] = useState({
@@ -36,6 +38,11 @@ const Perfil = () => {
     const abrirConfirmacion = (vehiculo) => {
         setVehiculoSeleccionado(vehiculo);
         setShowModal(true);
+    };
+    // Función que abre el modal
+    const abrirConfirmacionCitas = (cita) => {
+        setCitaSeleccionado(cita);
+        setShowCitaModal(true);
     };
 
     // Función de borrado de vehiculo
@@ -120,6 +127,18 @@ const Perfil = () => {
         }
     };
 
+    const deleteCita = async () => {
+        try {
+            await axios.delete(`http://localhost:5000/deleteCita/${citaSeleccionado.id_cita}`);
+            setCitas(prev => prev.filter(v => v.id_cita !== citaSeleccionado.id_cita));
+            setShowCitaModal(false); // Cerramos el modal
+            setShowSuccessCitaModal(true);
+        } catch (error) {
+            setShowCitaModal(false);
+            setShowErrorModal(true);
+        } finally {
+        }
+    };
     return (
         <div style={containerPageStyle}>
             {/* --- CABECERA --- */}
@@ -261,7 +280,7 @@ const Perfil = () => {
                                                 style={iconActionStyle}
                                                 onClick={() => navigate('/modificarCita', { state: { cita: c } })}
                                             />
-                                             <Trash2 size={18} style={iconActionStyle} onClick={() => abrirConfirmacion(c)} />
+                                            <Trash2 size={18} style={iconActionStyle} onClick={() => abrirConfirmacionCitas(c)} />
                                         </td>
                                     </tr>
                                 ))}
@@ -379,6 +398,50 @@ const Perfil = () => {
                 </div>
             )
             }
+
+            {showSuccessCitaModal && (
+                <div style={modalOverlayStyle}>
+                    <div style={modalContentStyle}>
+                        <CircleCheckBig size={48} color="#7CFFB2" style={{ marginBottom: '15px' }} />
+                        <h3 style={{ color: '#1A1A1A' }}>Cita cancelada</h3>
+                        <p>La cita ha sido cancelada y la ficha borrada correctamente.</p>
+
+                        <div style={modalButtonsStyle}>
+                            <button
+                                onClick={() => setShowSuccessCitaModal(false)}
+                                style={btnAceptarStyle}
+                            >
+                                Aceptar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )
+            }
+            {showCitaModal && (
+                <div style={modalOverlayStyle}>
+                    <div style={modalContentStyle}>
+                        <h3 style={{ color: '#1A1A1A' }}>Cancelar cita</h3>
+                        <p>Se va proceder a cancelar la cita y borrar la ficha.</p>
+
+                        <div style={modalButtonsStyle}>
+                            <button
+                                onClick={() => deleteCita()}
+                                style={btnEliminarStyle}
+                            >
+                                Eliminar
+                            </button>
+                            <button
+                                onClick={() => setShowCitaModal(false)}
+                                style={btnCancelarStyle}
+                            >
+                                Cancelar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )
+            }
         </div >
     );
 };
@@ -413,8 +476,8 @@ const modalContentStyle = {
 };
 const modalButtonsStyle = { display: 'flex', justifyContent: 'center', gap: '15px', marginTop: '20px' };
 const btnCancelarStyle = {
-    padding: '10px 20px', borderRadius: '10px', border: '1px solid #A7B1B7', backgroundColor: '#FFFFFF',
-    cursor: 'pointer'
+    padding: '10px 20px', borderRadius: '10px', border: 'none', backgroundColor: '#A7B1B7', color: 'white',
+    fontWeight: 'bold', cursor: 'pointer'
 };
 const btnEliminarStyle = {
     padding: '10px 20px', borderRadius: '10px', border: 'none', backgroundColor: '#ff4d4d', color: 'white',
