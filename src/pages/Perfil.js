@@ -31,7 +31,6 @@ const Perfil = () => {
     // Funciones para actualizar campos
     const handleCambioCliente = (e) => {
         setDatosCliente({ ...datosCliente, [e.target.name]: e.target.value });
-        console.log(datosCliente);
     };
 
     // Función que abre el modal
@@ -190,7 +189,7 @@ const Perfil = () => {
                             </div>
                             <div style={{ display: 'flex', justifyContent: 'right' }}>
                                 <button style={btnAddCarStyle} onClick={setShowModalUser}>
-                                    Modifcar datos
+                                    Modificar datos
                                 </button>
                             </div>
                         </form>
@@ -359,7 +358,7 @@ const Perfil = () => {
                 <div style={modalOverlayStyle}>
                     <div style={modalContentStyle}>
                         <h3 style={{ color: '#1A1A1A' }}>Modificación de datos</h3>
-                        <p>Se va ha proceder a modficar los datos del perfil.</p>
+                        <p>Se va a proceder a modificar los datos del perfil.</p>
 
                         <div style={modalButtonsStyle}>
                             <button
@@ -383,7 +382,7 @@ const Perfil = () => {
                 <div style={modalOverlayStyle}>
                     <div style={modalContentStyle}>
                         <CircleCheckBig size={48} color="#7CFFB2" style={{ marginBottom: '15px' }} />
-                        <h3 style={{ color: '#1A1A1A' }}>Usuario moficado</h3>
+                        <h3 style={{ color: '#1A1A1A' }}>Usuario modificado</h3>
                         <p>El usuario ha sido modificado correctamente.</p>
 
                         <div style={modalButtonsStyle}>

@@ -42,7 +42,6 @@ const Registro = () => {
             const email = registroCompleto.cliente.email;
             const urlCheck = `http://localhost:5000/checkUser?email=${email}`;
             const resCheck = await axios.get(urlCheck);
-            console.log(resCheck)
             if (resCheck.status === 200) {
                 alert(resCheck.data.mensaje);
             } else if (resCheck.status === 201) {
@@ -65,7 +64,6 @@ const Registro = () => {
                 const bastidor = registroCompleto.vehiculo.bastidor;
                 const resCreateCar = await axios.post(urlCreateCar, { id_new_user, matricula, marca, modelo, anio, bastidor });
                 const id_new_car = resCreateCar.data.id
-                console.log(id_new_car)
                 // Llamamos al servicio login para loguerse en la app automaticamente
                 const url = 'http://localhost:5000/login';
                 const respuesta = await axios.post(url, { email, password });

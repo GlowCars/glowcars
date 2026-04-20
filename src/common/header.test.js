@@ -2,10 +2,14 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 import Header from './header';
 
+const routerProps = {
+  future: { v7_startTransition: true, v7_relativeSplatPath: true },
+};
+
 // Helper para renderizar con Router ya que Header usa useNavigate y NavLink
 const renderWithRouter = (ui) => {
- return render(
-    <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+  return render(
+    <BrowserRouter {...routerProps}>
       {ui}
     </BrowserRouter>
   );;
@@ -20,7 +24,7 @@ describe('Header Component', () => {
 
   test('debe mostrar el enlace de "Log in" cuando no hay sesión iniciada', () => {
     renderWithRouter(<Header />);
-    
+
     const loginLink = screen.getByText(/Log in/i);
     expect(loginLink).toBeInTheDocument();
     // El nombre del usuario no debería aparecer
@@ -74,16 +78,14 @@ describe('Header Component', () => {
 
   test('debe contener los enlaces de navegación principales', () => {
     renderWithRouter(<Header />);
-    
+
     expect(screen.getByText(/Conócenos/i)).toBeInTheDocument();
     expect(screen.getByText(/Servicios/i)).toBeInTheDocument();
     expect(screen.getByText(/Reseñas/i)).toBeInTheDocument();
   });
   const mockedUsedNavigate = jest.fn();
-jest.mock('react-router-dom', () => ({
-   ...jest.requireActual('react-router-dom'),
-  useNavigate: () => mockedUsedNavigate,
-}));
-
-
+  jest.mock('react-router-dom', () => ({
+    ...jest.requireActual('react-router-dom'),
+    useNavigate: () => mockedUsedNavigate,
+  }));
 });

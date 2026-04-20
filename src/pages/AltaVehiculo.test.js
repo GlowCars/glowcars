@@ -11,6 +11,10 @@ jest.mock('react-router-dom', () => ({
   useNavigate: () => mockedUsedNavigate,
 }));
 
+const routerProps = {
+  future: { v7_startTransition: true, v7_relativeSplatPath: true },
+};
+
 describe('Pruebas Unitarias - Alta de Vehículo', () => {
   
   beforeEach(() => {
@@ -22,7 +26,7 @@ describe('Pruebas Unitarias - Alta de Vehículo', () => {
 
   test('debe renderizar correctamente el título y el botón de añadir', () => {
     render(
-      <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+      <BrowserRouter {...routerProps}>
       <AltaVehiculo />
     </BrowserRouter>
     );
@@ -33,7 +37,7 @@ describe('Pruebas Unitarias - Alta de Vehículo', () => {
 
   test('debe actualizar el campo matrícula cuando el usuario escribe', () => {
     render(
-      <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+      <BrowserRouter {...routerProps}>
       <AltaVehiculo />
     </BrowserRouter>
     );
@@ -49,7 +53,7 @@ describe('Pruebas Unitarias - Alta de Vehículo', () => {
     axios.post.mockResolvedValueOnce({ status: 201 });
 
     render(
-      <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+      <BrowserRouter {...routerProps}>
       <AltaVehiculo />
     </BrowserRouter>
     );

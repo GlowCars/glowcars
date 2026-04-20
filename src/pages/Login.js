@@ -26,7 +26,6 @@ function Login() {
       // Si el login es correcto, preparamos el objeto de sesión
       const nombreUsuario = email.split('@')[0].toUpperCase();
       const iniciales = nombreUsuario.substring(0, 2);
-      console.log(respuesta)
       const datosUsuario = {
         email: respuesta.data.email,
         id: respuesta.data.id,
@@ -81,6 +80,7 @@ function Login() {
             <div style={inputGroupFull}>
               <label style={labelStyle}>Email</label>
               <input
+                placeholder="Email"
                 type="email"
                 style={inputStyle}
                 value={email}
@@ -93,6 +93,7 @@ function Login() {
               <label style={labelStyle}>Contraseña</label>
               <div style={{ position: 'relative', width: '100%' }}>
                 <input
+                  placeholder="Contraseña"
                   type={showPassword ? "text" : "password"}
                   style={{ ...inputStyle, width: '100%' }}
                   value={password}
@@ -139,7 +140,8 @@ function Login() {
 
 // --- ESTILOS ---
 const containerPageStyle = { display: 'flex', flexDirection: 'column', minHeight: '100vh', fontFamily: 'Poppins' };
-const mainContentStyle = {flex: 1, backgroundColor: '#FFFFFF', display: 'flex', justifyContent: 'center',
+const mainContentStyle = {
+  flex: 1, backgroundColor: '#FFFFFF', display: 'flex', justifyContent: 'center',
   alignItems: 'center', padding: '40px 20px'
 };
 const formCardStyle = { width: '100%', maxWidth: '350px', padding: '20px', textAlign: 'center' };
@@ -147,10 +149,12 @@ const formLayout = { display: 'flex', flexDirection: 'column', gap: '15px' };
 const inputGroupFull = { display: 'flex', flexDirection: 'column', gap: '5px', textAlign: 'left' };
 const labelStyle = { fontSize: '1rem', color: '#1A1A1A' };
 const inputStyle = { padding: '10px', border: '1px solid #A7B1B7', borderRadius: '10px', fontSize: '1rem', width: '100%' };
-const eyeButtonStyle = {position: 'absolute', right: '5px', top: '50%', transform: 'translateY(-50%)', background: 'none',
+const eyeButtonStyle = {
+  position: 'absolute', right: '5px', top: '50%', transform: 'translateY(-50%)', background: 'none',
   border: 'none', cursor: 'pointer', color: '#A7B1B7', display: 'flex', alignItems: 'center', padding: '0'
 };
-const btnActionStyle = {flex: 1, backgroundColor: '#7CFFB2', color: '#1A1A1A', border: '1px solid #A7B1B7', padding: '10px',
+const btnActionStyle = {
+  flex: 1, backgroundColor: '#7CFFB2', color: '#1A1A1A', border: '1px solid #A7B1B7', padding: '10px',
   borderRadius: '15px', fontSize: '1rem', cursor: 'pointer', boxShadow: '0px 4px 4px rgba(0,0,0,0.25)', fontFamily: 'inherit'
 };
 

@@ -71,7 +71,6 @@ const Citas = () => {
             const tipo = formCita.tipo;
             const motivo = formCita.motivo;
             const idUser = formCita.idUser;
-            console.log(formCita)
             await axios.post(urlCita, { vehiculo, fecha, tipo, motivo, idUser });
             navigate('/perfil');
 
@@ -98,6 +97,7 @@ const Citas = () => {
                         <div style={inputGroup}>
                             <label style={labelStyle}>Vehículo</label>
                             <select
+                                id="vehiculo-select"
                                 name="vehiculo"
                                 value={formCita.vehiculo}
                                 style={inputStyle}
@@ -113,6 +113,7 @@ const Citas = () => {
                         <div style={inputGroup}>
                             <label style={labelStyle}>Fecha solicitud cita</label>
                             <input
+                                id="fecha-input"
                                 type="date"
                                 name="fecha"
                                 style={inputStyle}

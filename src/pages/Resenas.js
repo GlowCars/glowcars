@@ -45,10 +45,10 @@ const Resenas = () => {
                     id_resena: v.id_resena,
                     calificacion: v.calificacion,
                     texto: v.comentario,
-                    nombre: `${v.nombre} ${v.apellidos || ''}`.trim(),
+                    nombre: `${v.nombre} ${v.apellidos}`.trim(),
                     fecha: formatoFecha(v.fecha),
-                    titulo: v.titulo || "-",
-                    avatar: (v.nombre?.[0] || 'U').toUpperCase() + (v.apellidos?.[0] || '').toUpperCase()
+                    titulo: v.titulo ,
+                    avatar: (v.nombre?.[0]).toUpperCase() + (v.apellidos?.[0]).toUpperCase()
                 }));
 
                 setResenas(datosFormateados);
@@ -62,10 +62,8 @@ const Resenas = () => {
 
     // Formato de fecha
     const formatoFecha = (fechaGMT) => {
-        if (!fechaGMT) return '';
 
         const date = new Date(fechaGMT);
-        if (isNaN(date.getTime())) return '';
 
         // Extraemos las partes en formato UTC para evitar saltos de día
         const year = date.getUTCFullYear();
