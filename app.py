@@ -202,7 +202,7 @@ def create_car():
         cursor.close()
         conexion.close()
 
-        return jsonify({"mensaje": "¡Usuario y vehiculo dado de alta correctamente!"}), 201
+        return jsonify({"mensaje": "¡Usuario y vehiculo dado de alta correctamente!"}), 200
        
     except Exception as e:
         print(f"Error en login: {e}")
