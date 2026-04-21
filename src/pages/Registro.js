@@ -63,7 +63,6 @@ const Registro = () => {
                 const anio = registroCompleto.vehiculo.anio;
                 const bastidor = registroCompleto.vehiculo.bastidor;
                 const resCreateCar = await axios.post(urlCreateCar, { id_new_user, matricula, marca, modelo, anio, bastidor });
-                const id_new_car = resCreateCar.data.id
                 // Llamamos al servicio login para loguerse en la app automaticamente
                 const url = 'http://localhost:5000/login';
                 const respuesta = await axios.post(url, { email, password });

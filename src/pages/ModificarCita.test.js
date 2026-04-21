@@ -1,13 +1,16 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 import axios from 'axios';
-import ModifcarCitas from './ModificarCita';
+import ModificarCitas from './ModificarCita';
 
 // Mock de Axios
 jest.mock('axios');
 
-// Mock de useNavigate y useLocation
+// Mocks de navegación
 const mockNavigate = jest.fn();
+const mockUseLocation = jest.fn();
+
+// Datos de prueba
 const mockCita = {
     id_cita: 1,
     marca: 'Toyota',
@@ -21,42 +24,42 @@ const mockCita = {
 jest.mock('react-router-dom', () => ({
     ...jest.requireActual('react-router-dom'),
     useNavigate: () => mockNavigate,
-    useLocation: () => ({
-        state: { cita: mockCita }
-    })
+    useLocation: () => mockUseLocation(),
 }));
 
 const routerProps = {
     future: { v7_startTransition: true, v7_relativeSplatPath: true },
 };
 
-describe('Pruebas en <ModifcarCitas />', () => {
+describe('Pruebas en <ModificarCitas />', () => {
 
     const renderModificarCitas = () => {
         return render(
             <BrowserRouter {...routerProps}>
-                <ModifcarCitas />
+                <ModificarCitas />
             </BrowserRouter>
         );
     };
 
     beforeEach(() => {
         jest.clearAllMocks();
+        // IMPORTANTE: Por defecto, todos los tests tienen una cita válida
+        // Esto evita el error "cannot read state of undefined"
+        mockUseLocation.mockReturnValue({
+            state: { cita: mockCita }
+        });
     });
 
     test('debe cargar los datos de la cita en los campos correspondientes', () => {
         const { container } = renderModificarCitas();
 
-        // Verificar vehículo (está deshabilitado)
         const vehiculoInput = container.querySelector('input[name="vehiculo"]');
         expect(vehiculoInput.value).toBe('Toyota Corolla');
         expect(vehiculoInput).toBeDisabled();
 
-        // Verificar fecha (formateada)
         const fechaInput = container.querySelector('input[name="fecha"]');
         expect(fechaInput.value).toBe('2026-05-20');
 
-        // Verificar motivo
         const motivoInput = container.querySelector('input[name="motivo"]');
         expect(motivoInput.value).toBe('Cambio de aceite');
     });
@@ -77,12 +80,11 @@ describe('Pruebas en <ModifcarCitas />', () => {
     test('debe mostrar el modal de éxito al actualizar correctamente', async () => {
         axios.put.mockResolvedValue({ status: 200 });
 
-        const { container } = renderModificarCitas();
+        renderModificarCitas();
         const submitBtn = screen.getByRole('button', { name: /guardar cambios/i });
 
         fireEvent.click(submitBtn);
 
-        // Esperar a que aparezca el modal
         await waitFor(() => {
             expect(screen.getByText(/cita modificada/i)).toBeInTheDocument();
         });
@@ -95,7 +97,6 @@ describe('Pruebas en <ModifcarCitas />', () => {
         const submitBtn = screen.getByRole('button', { name: /guardar cambios/i });
         fireEvent.click(submitBtn);
 
-        // Esperar y hacer clic en Aceptar
         const btnAceptar = await screen.findByRole('button', { name: /aceptar/i });
         fireEvent.click(btnAceptar);
 
@@ -103,9 +104,8 @@ describe('Pruebas en <ModifcarCitas />', () => {
     });
 
     test('debe mostrar un error si la petición de axios falla', async () => {
-        // Mock de console.error para que no ensucie la terminal del test
         const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => { });
-        window.alert = jest.fn(); // Mock del alert
+        window.alert = jest.fn();
 
         axios.put.mockRejectedValue(new Error('Network Error'));
 
@@ -118,5 +118,22 @@ describe('Pruebas en <ModifcarCitas />', () => {
         });
 
         consoleSpy.mockRestore();
+    });
+
+    test('debe redirigir a /perfil si no existe citaData (location.state es null)', () => {
+        // Aquí SOBREESCRIBIMOS el mock solo para este test
+        mockUseLocation.mockReturnValue({
+            state: null
+        });
+
+        renderModificarCitas();
+
+        expect(mockNavigate).toHaveBeenCalledWith('/perfil');
+    });
+
+    test('no debe redirigir si existe citaData en el state', () => {
+        // Este test usa el valor por defecto del beforeEach
+        renderModificarCitas();
+        expect(mockNavigate).not.toHaveBeenCalled();
     });
 });

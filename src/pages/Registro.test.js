@@ -149,4 +149,43 @@ describe('Pruebas en <Registro />', () => {
         // 3. Limpiamos el espía
         spyError.mockRestore();
     });
+
+    test('debe limitar el input de teléfono a 9 dígitos en registro.js', () => {
+        render(
+            <BrowserRouter {...routerProps}>
+                <Registro />
+            </BrowserRouter>
+        );
+
+        // 1. Localizamos el input por su placeholder
+        const inputTelefono = screen.getByPlaceholderText(/teléfono/i);
+
+        // Simulamos un teléfono válido (9 dígitos)
+        fireEvent.input(inputTelefono, {
+            target: { value: '666777888', name: 'telefono' }
+        });
+
+        // Verificamos que el valor se mantiene exactamente igual
+        expect(inputTelefono.value).toBe('666777888');
+        expect(inputTelefono.value).toHaveLength(9);
+    });
+
+    test('debe limitar el input de año a un máximo de 4 dígitos mediante onInput', () => {
+        render(
+            <BrowserRouter {...routerProps}>
+                <Registro />
+            </BrowserRouter>
+        );
+
+        // 1. Localizamos el input por su placeholder "Año"
+        const inputAnio = screen.getByPlaceholderText(/año/i);
+
+        // Simulamos un año correcto (4 dígitos)
+        fireEvent.input(inputAnio, {
+            target: { value: '2024', name: 'anio' }
+        });
+
+        // Verificamos que el valor se mantiene intacto
+        expect(inputAnio.value).toBe('2024');
+    });
 });

@@ -53,7 +53,7 @@ const ModificarVehiculo = () => {
             const bastidor = vehiculoUpdate.bastidor;
             const id_new_user = user.id;
             const res = await axios.put(urlUpdate, { id_new_user, matricula, marca, modelo, fc_mat, bastidor });
-            if (res.status === 200 || res.status === 201) {
+            if (res.status === 200) {
                 setShowModal(true);
             }
 

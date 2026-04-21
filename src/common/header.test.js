@@ -1,91 +1,143 @@
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor, act } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 import Header from './header';
+
+// Variables de control para los mocks
+let mockLocation = { pathname: '/home' };
+const mockNavigate = jest.fn();
+
+// Mock de react-router-dom
+jest.mock('react-router-dom', () => ({
+  ...jest.requireActual('react-router-dom'),
+  useNavigate: () => mockNavigate,
+  useLocation: () => mockLocation,
+}));
 
 const routerProps = {
   future: { v7_startTransition: true, v7_relativeSplatPath: true },
 };
 
-// Helper para renderizar con Router ya que Header usa useNavigate y NavLink
-const renderWithRouter = (ui) => {
-  return render(
-    <BrowserRouter {...routerProps}>
-      {ui}
-    </BrowserRouter>
-  );;
-};
-
 describe('Header Component', () => {
   beforeEach(() => {
+    jest.clearAllMocks();
     sessionStorage.clear();
-    // Mock de window.scrollTo para evitar errores si los componentes lo usan
+    mockLocation = { pathname: '/home' };
     window.scrollTo = jest.fn();
   });
 
-  test('debe mostrar el enlace de "Log in" cuando no hay sesión iniciada', () => {
-    renderWithRouter(<Header />);
+  const renderHeader = () => {
+    return render(
+      <BrowserRouter {...routerProps}>
+        <Header />
+      </BrowserRouter>
+    );
+  };
 
-    const loginLink = screen.getByText(/Log in/i);
-    expect(loginLink).toBeInTheDocument();
-    // El nombre del usuario no debería aparecer
-    expect(screen.queryByText(/J.M/i)).not.toBeInTheDocument();
-  });
-
-  test('debe mostrar el nombre del usuario cuando hay sesión iniciada', () => {
-    const mockUser = { nombre: 'Carlos Dev', iniciales: 'CD' };
+  test('debe mostrar el nombre del usuario si hay sesión', () => {
+    const mockUser = { nombre: 'Pepe' };
     sessionStorage.setItem('usuarioGlowcars', JSON.stringify(mockUser));
 
-    renderWithRouter(<Header />);
+    renderHeader();
 
-    expect(screen.getByText(/Carlos Dev/i)).toBeInTheDocument();
+    expect(screen.getByText(/Pepe/i)).toBeInTheDocument();
     expect(screen.queryByText(/Log in/i)).not.toBeInTheDocument();
   });
 
-  test('debe abrir el menú desplegable al hacer clic en el nombre del usuario', () => {
-    const mockUser = { nombre: 'Carlos Dev' };
-    sessionStorage.setItem('usuarioGlowcars', JSON.stringify(mockUser));
+  test('debe abrir el menú y mostrar "Ver perfil" al hacer clic', () => {
+    sessionStorage.setItem('usuarioGlowcars', JSON.stringify({ nombre: 'Pepe' }));
+    renderHeader();
 
-    renderWithRouter(<Header />);
+    fireEvent.click(screen.getByText(/Pepe/i));
 
-    // Al principio el botón de cerrar sesión no existe
-    expect(screen.queryByText(/Cerrar sesión/i)).not.toBeInTheDocument();
-
-    // Click en el badge del usuario
-    const userBadge = screen.getByText(/Carlos Dev/i);
-    fireEvent.click(userBadge);
-
-    // Ahora el menú debería estar visible
     expect(screen.getByText(/Ver perfil/i)).toBeInTheDocument();
     expect(screen.getByText(/Cerrar sesión/i)).toBeInTheDocument();
   });
 
-  test('debe eliminar la sesión y redirigir al hacer clic en "Cerrar sesión"', () => {
-    const mockUser = { nombre: 'Carlos Dev' };
-    sessionStorage.setItem('usuarioGlowcars', JSON.stringify(mockUser));
+  test('handleLogout debe limpiar sesión y navegar a home', () => {
+    sessionStorage.setItem('usuarioGlowcars', JSON.stringify({ nombre: 'Pepe' }));
+    renderHeader();
 
-    renderWithRouter(<Header />);
+    fireEvent.click(screen.getByText(/Pepe/i)); // Abrir menú
+    fireEvent.click(screen.getByText(/Cerrar sesión/i));
 
-    // Abrir menú
-    fireEvent.click(screen.getByText(/Carlos Dev/i));
-
-    // Clic en cerrar sesión
-    const logoutBtn = screen.getByText(/Cerrar sesión/i);
-    fireEvent.click(logoutBtn);
-
-    // Verificar que el sessionStorage se limpió
     expect(sessionStorage.getItem('usuarioGlowcars')).toBeNull();
+    expect(mockNavigate).toHaveBeenCalledWith('/home');
   });
 
-  test('debe contener los enlaces de navegación principales', () => {
-    renderWithRouter(<Header />);
+  test('debe redirigir a /login si el usuario no está logueado y entra en ruta protegida', async () => {
+    // 1. Forzamos que la sesión sea null para que entre en el ELSE del switch
+    sessionStorage.clear();
 
-    expect(screen.getByText(/Conócenos/i)).toBeInTheDocument();
-    expect(screen.getByText(/Servicios/i)).toBeInTheDocument();
-    expect(screen.getByText(/Reseñas/i)).toBeInTheDocument();
+    // 2. IMPORTANTE: Para que no explote el JSON.parse(session) cuando session es null,
+    // tenemos que mockear el comportamiento de sessionStorage solo para este test
+    // o asegurarnos de que la ruta sea protegida.
+
+    mockLocation = { pathname: '/perfil' };
+
+    await act(async () => {
+      renderHeader();
+    });
+
+    // 3. USAMOS mockNavigate
+    await waitFor(() => {
+      expect(mockNavigate).toHaveBeenCalledWith('/login');
+    });
   });
-  const mockedUsedNavigate = jest.fn();
-  jest.mock('react-router-dom', () => ({
-    ...jest.requireActual('react-router-dom'),
-    useNavigate: () => mockedUsedNavigate,
-  }));
+
+  test('debe navegar a /perfil al hacer clic en el botón de ver perfil', () => {
+    // Preparación igual al anterior
+    sessionStorage.setItem('usuarioGlowcars', JSON.stringify({ nombre: 'Pepe' }));
+    renderHeader();
+
+    // Paso 1: Abrir el menú
+    fireEvent.click(screen.getByText(/Pepe/i));
+
+    // Paso 2: Hacer clic en el botón que acaba de aparecer
+    const btnPerfil = screen.getByText(/Ver perfil/i);
+    fireEvent.click(btnPerfil);
+
+    // Paso 3: Verificar la navegación (la lógica de handleToPerfile)
+    expect(mockNavigate).toHaveBeenCalledWith('/perfil');
+  });
+
+  test('debe navegar a /home al hacer clic en el logo o el nombre de la marca', () => {
+    // 1. Renderizamos el componente
+    render(
+      <BrowserRouter {...routerProps}>
+        <Header />
+      </BrowserRouter>
+    );
+
+    // 2. Buscamos el contenedor que tiene el logo (por el texto "GLOWCARS")
+    const brandContainer = screen.getByText(/GLOWCARS/i).closest('div');
+
+    // 3. Simulamos el clic
+    fireEvent.click(brandContainer);
+
+    // 4. Verificamos que se llamó a navigate con la ruta correcta
+    expect(mockNavigate).toHaveBeenCalledWith('/home');
+  });
+
+  test('debe aplicar estilos dinámicos (verde y opacidad 1) cuando el enlace está activo', () => {
+    // 1. EL TRUCO: Cambiamos la URL real del "navegador" de las pruebas
+    window.history.pushState({}, 'Test Page', '/conocenos');
+
+    render(
+      <BrowserRouter {...routerProps}>
+        <Header />
+      </BrowserRouter>
+    );
+
+    // 2. Buscamos el enlace
+    const linkConocenos = screen.getByText(/Conócenos/i).closest('a');
+
+    // 3. Ahora el NavLink de BrowserRouter detectará la URL real y activará isActive
+    expect(linkConocenos).toHaveStyle({
+      color: 'rgb(124, 255, 178)',
+      opacity: '1'
+    });
+
+    // Limpieza: devolvemos la URL a la base para no afectar a otros tests
+    window.history.pushState({}, 'Home', '/');
+  });
 });

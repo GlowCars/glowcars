@@ -6,7 +6,7 @@ import Footer from '../common/footer.js';
 import axios from 'axios';
 import { CircleCheckBig } from 'lucide-react';
 
-const ModifcarCitas = () => {
+const ModificarCitas = () => {
     // Variables
     const navigate = useNavigate();
     const location = useLocation();
@@ -14,10 +14,8 @@ const ModifcarCitas = () => {
     const [showModal, setShowModal] = useState(false);
     // Formato fecha
     const formatoFecha = (fechaGMT) => {
-        if (!fechaGMT) return '';
 
         const date = new Date(fechaGMT);
-        if (isNaN(date.getTime())) return '';
 
         // Extraemos las partes en formato UTC para evitar saltos de día
         const year = date.getUTCFullYear();
@@ -60,7 +58,7 @@ const ModifcarCitas = () => {
             const fecha = formCita.fecha
             const estado = formCita.estado
             const res = await axios.put(urlUpdateCita, { id_cita, vehiculo, tipo, motivo, fecha, estado });
-            if (res.status === 200 || res.status === 201) {
+            if (res.status === 200) {
                 setShowModal(true);
             }
 
@@ -218,4 +216,4 @@ const btnSolicitarStyle = {
     fontSize: '1.1rem', cursor: 'pointer', marginTop: '10px', boxShadow: '0px 2px 4px rgba(0,0,0,0.1)'
 };
 
-export default ModifcarCitas;
+export default ModificarCitas;

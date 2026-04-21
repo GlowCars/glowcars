@@ -44,7 +44,7 @@ const AltaVehiculo = () => {
             const bastidor = datosVehiculo.bastidor;
             const id_new_user = user.id;
             const resCreateCar = await axios.post(urlCreateCar, { id_new_user, matricula, marca, modelo, anio, bastidor });
-            if (resCreateCar.status === 200 || resCreateCar.status === 201) {
+            if (resCreateCar.status === 200) {
                 setShowModal(true);
             }
 

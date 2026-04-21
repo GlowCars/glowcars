@@ -45,7 +45,7 @@ const ModificarResena = () => {
             const comentario = resenaUpdate.comentario;
             const id_resena = resenaUpdate.id;
             const res = await axios.put(urlUpdate, { id_resena, calificacion, titulo, comentario });
-            if (res.status === 200 || res.status === 201) {
+            if (res.status === 200) {
                 setShowModal(true);
             }
 
