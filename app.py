@@ -76,7 +76,7 @@ def create_cita():
         cursor.close()
         conexion.close()
 
-        return jsonify({"mensaje": "¡Cita creada correctamente!"}), 201
+        return jsonify({"mensaje": "¡Cita creada correctamente!"}), 200
        
     except Exception as e:
         print(f"Error en login: {e}")
@@ -414,7 +414,7 @@ def create_resena():
         cursor.close()
         conexion.close()
 
-        return jsonify({"mensaje": "Reseña creada correctamente."}), 201
+        return jsonify({"mensaje": "Reseña creada correctamente."}), 200
     
     except Exception as e:
         return jsonify({"error": str(e)}), 500
