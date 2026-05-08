@@ -104,6 +104,11 @@ const AltaVehiculo = () => {
 
                         <div style={btnCenteringStyle}>
                             <button type="submit" style={btnRegistroStyle}>Añadir</button>
+                             <button
+                                onClick={() =>  navigate('/perfil')}
+                                type="button" style={btnCancelarStyle}>
+                                Cancelar
+                            </button>
                         </div>
                     </form>
                 </div>
@@ -174,6 +179,11 @@ const modalButtonsStyle = { display: 'flex', justifyContent: 'center', gap: '15p
 const btnAceptarStyle = {
     padding: '10px 20px', borderRadius: '10px', border: '1px solid #A7B1B7', backgroundColor: '#FFFFFF',
     cursor: 'pointer'
+};
+const btnCancelarStyle = {
+    backgroundColor: '#A7B1B7', border: '1px solid #7CFFB2', padding: '14px', borderRadius: '20px',
+    fontSize: '1.1rem', cursor: 'pointer', marginTop: '10px', boxShadow: '0px 2px 4px rgba(0,0,0,0.1)', fontFamily: 'Arial, sans-serif',
+    marginLeft: '30px'
 };
 
 export default AltaVehiculo;

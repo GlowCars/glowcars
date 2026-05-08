@@ -17,6 +17,7 @@ const Registro = () => {
     const [datosVehiculo, setDatosVehiculo] = useState({
         matricula: '', marca: '', modelo: '', anio: '', bastidor: ''
     });
+    const [showModal, setShowModal] = useState(false);
 
     // Funciones para actualizar campos
     const handleCambioCliente = (e) => {
@@ -43,7 +44,7 @@ const Registro = () => {
             const urlCheck = `http://localhost:5000/checkUser?email=${email}`;
             const resCheck = await axios.get(urlCheck);
             if (resCheck.status === 200) {
-                alert(resCheck.data.mensaje);
+                setShowModal(true); // Abrimos la modal
             } else if (resCheck.status === 201) {
                 // Llamamos al servicio createUser para crear el nuevo usuario y guardar en la BBDD
                 const urlCreate = `http://localhost:5000/createUser`;
@@ -62,7 +63,7 @@ const Registro = () => {
                 const modelo = registroCompleto.vehiculo.modelo;
                 const anio = registroCompleto.vehiculo.anio;
                 const bastidor = registroCompleto.vehiculo.bastidor;
-                const resCreateCar = await axios.post(urlCreateCar, { id_new_user, matricula, marca, modelo, anio, bastidor });
+               await axios.post(urlCreateCar, { id_new_user, matricula, marca, modelo, anio, bastidor });
                 // Llamamos al servicio login para loguerse en la app automaticamente
                 const url = 'http://localhost:5000/login';
                 const respuesta = await axios.post(url, { email, password });
@@ -78,8 +79,9 @@ const Registro = () => {
 
                 // Guardamos los datos del usuario en sessionStorage
                 sessionStorage.setItem('usuarioGlowcars', JSON.stringify(datosUsuario));
+                navigate('/perfil');
+
             }
-            navigate('/perfil');
 
         } catch (error) {
             console.error("Error en el registro:", error);
@@ -189,6 +191,24 @@ const Registro = () => {
 
             {/* --- FOOTER --- */}
             <Footer></Footer>
+
+            {/* --- VENTANAS MODALES --- */}
+            {showModal && (
+                <div style={modalOverlayStyle}>
+                    <div style={modalContentStyle}>
+                        <h3 style={{ color: '#1A1A1A' }}>ALERTA</h3>
+                        <p>El email ya existe en nuestra base de datos. Por favor, introduzca otro email.</p>
+                        <div style={modalButtonsStyle}>
+                            <button
+                                onClick={() => setShowModal(false)}
+                                style={btnAceptarStyle}>
+                                Aceptar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )
+            }
         </div>
     );
 };
@@ -226,5 +246,18 @@ const btnRegistroStyle = {
     borderRadius: '20px', fontSize: '0.95rem', cursor: 'pointer', fontWeight: 'bold', boxShadow: '0 4px 6px rgba(0,0,0,0.1)'
 };
 const verticalLineStyle = { backgroundColor: '#0A3A47', width: '1px', height: '100%', opacity: '0.5', alignSelf: 'stretch' };
+const modalOverlayStyle = {
+    position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    display: 'flex', justifyContent: 'center', alignItems: 'center', zIndex: 2000
+};
+const modalContentStyle = {
+    backgroundColor: 'white', padding: '30px', borderRadius: '15px', width: '90%', maxWidth: '400px',
+    textAlign: 'center', boxShadow: '0 4px 15px rgba(0,0,0,0.2)'
+};
+const btnAceptarStyle = {
+    padding: '10px 20px', borderRadius: '10px', border: '1px solid #A7B1B7', backgroundColor: '#7CFFB2',
+    cursor: 'pointer'
+};
+const modalButtonsStyle = { display: 'flex', justifyContent: 'center', gap: '15px', marginTop: '20px' };
 
 export default Registro;

@@ -291,6 +291,7 @@ const Perfil = () => {
 
             {/* --- FOOTER --- */}
             < Footer ></Footer >
+            
             {/* --- VENTANAS MODALES --- */}
             {showModal && (
                 <div style={modalOverlayStyle}>

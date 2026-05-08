@@ -109,6 +109,11 @@ const ModificarResena = () => {
                         <button type="submit" style={btnSubmitStyle}>
                             <Send size={18} /> Modificar reseña
                         </button>
+                        <button
+                            onClick={() => navigate('/resenas')}
+                            type="button" style={btnCancelarStyle}>
+                            Cancelar
+                        </button>
                     </form>
                 </div>
             </main>
@@ -156,12 +161,12 @@ const inputGroupStyle = { display: 'flex', flexDirection: 'column', gap: '8px' }
 const labelStyle = { fontWeight: 'bold', fontSize: '0.9rem', color: '#1A1A1A ' };
 const starsContainer = { display: 'flex', gap: '5px', justifyContent: 'center', margin: '10px 0' };
 const textareaStyle = {
-    padding: '15px', borderRadius: '10px', border: '1px solid #FFFFFF', minHeight: '120px',
+    padding: '15px', borderRadius: '10px', border: '1px solid #A7B1B7', minHeight: '120px',
     fontFamily: 'inherit', fontSize: '1rem', backgroundColor: '#FFFFFF', resize: 'none'
 };
 const btnSubmitStyle = {
-    backgroundColor: '#7CFFB2', color: '#000', border: '1px solid #A7B1B7', padding: '12px',
-    borderRadius: '25px', cursor: 'pointer', fontWeight: 'bold', display: 'flex', alignItems: 'center',
+    backgroundColor: '#7CFFB2', color: '#000', border: '1px solid #A7B1B7', padding: '10px',
+    borderRadius: '20px', cursor: 'pointer', fontWeight: 'bold', display: 'flex', alignItems: 'center',
     justifyContent: 'center', gap: '10px', marginTop: '10px'
 };
 const inputStyle = {
@@ -181,4 +186,10 @@ const btnAceptarStyle = {
     padding: '10px 20px', borderRadius: '10px', border: '1px solid #A7B1B7', backgroundColor: '#FFFFFF',
     cursor: 'pointer'
 };
+const btnCancelarStyle = {
+    backgroundColor: '#A7B1B7', color: '#000', border: '1px solid #7CFFB2', padding: '10px',
+    borderRadius: '25px', cursor: 'pointer', fontWeight: 'bold', display: 'flex', alignItems: 'center',
+    justifyContent: 'center', gap: '10px', marginTop: '10px'
+};
+
 export default ModificarResena;

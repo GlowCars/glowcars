@@ -132,6 +132,11 @@ const ModificarVehiculo = () => {
 
                         <div>
                             <button type="submit" style={btnRegistroStyle}>Guardar Cambios</button>
+                            <button
+                                onClick={() =>  navigate('/perfil')}
+                                type="button" style={btnCancelarStyle}>
+                                Cancelar
+                            </button>
                         </div>
                     </form>
                 </div>
@@ -194,7 +199,12 @@ const modalContentStyle = {
 const modalButtonsStyle = { display: 'flex', justifyContent: 'center', gap: '15px', marginTop: '20px' };
 const btnAceptarStyle = {
     padding: '10px 20px', borderRadius: '10px', border: '1px solid #A7B1B7', backgroundColor: '#FFFFFF',
-    cursor: 'pointer'
+    cursor: 'pointer', marginRight: '30px', marginTop: '15px'
+};
+const btnCancelarStyle = {
+    backgroundColor: '#A7B1B7', border: '1px solid #7CFFB2', padding: '14px', borderRadius: '20px',
+    fontSize: '1.1rem', cursor: 'pointer', marginTop: '15px', boxShadow: '0px 2px 4px rgba(0,0,0,0.1)', fontFamily: 'Arial, sans-serif',
+    marginLeft: '20px'
 };
 
 export default ModificarVehiculo;

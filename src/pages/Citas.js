@@ -151,6 +151,11 @@ const Citas = () => {
                             <button type="submit" style={btnSolicitarStyle}>
                                 Solicitar cita
                             </button>
+                            <button
+                                onClick={() =>  navigate('/servicios')}
+                                type="button" style={btnCancelarStyle}>
+                                Cancelar
+                            </button>
                         </div>
                     </form>
                 </div>
@@ -177,7 +182,12 @@ const inputStyle = {
 };
 const btnSolicitarStyle = {
     backgroundColor: '#7CFFB2', border: '1px solid #A7B1B7', padding: '14px', borderRadius: '20px',
-    fontSize: '1.1rem', cursor: 'pointer', marginTop: '10px', boxShadow: '0px 2px 4px rgba(0,0,0,0.1)', fontFamily: 'Arial, sans-serif'
+    fontSize: '1.1rem', cursor: 'pointer', marginTop: '20px', boxShadow: '0px 2px 4px rgba(0,0,0,0.1)', fontFamily: 'Arial, sans-serif'
+};
+const btnCancelarStyle = {
+    backgroundColor: '#A7B1B7', border: '1px solid #7CFFB2', padding: '14px', borderRadius: '20px',
+    fontSize: '1.1rem', cursor: 'pointer', marginTop: '10px', boxShadow: '0px 2px 4px rgba(0,0,0,0.1)', fontFamily: 'Arial, sans-serif',
+    marginLeft: '30px'
 };
 
 export default Citas;

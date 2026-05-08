@@ -113,6 +113,11 @@ const NewResena = () => {
                         <button type="submit" style={btnSubmitStyle}>
                             <Send size={18} /> Publicar reseña
                         </button>
+                          <button
+                            onClick={() => navigate('/resenas')}
+                            type="button" style={btnCancelarStyle}>
+                            Cancelar
+                        </button>
                     </form>
                 </div>
             </main>
@@ -164,9 +169,9 @@ const textareaStyle = {
     fontFamily: 'inherit', fontSize: '1rem', backgroundColor: '#FFFFFF', resize: 'none'
 };
 const btnSubmitStyle = {
-    backgroundColor: '#7CFFB2', color: '#1A1A1A', border: '1px solid #A7B1B7', padding: '12px',
-    borderRadius: '25px', cursor: 'pointer', fontWeight: 'bold', display: 'flex', alignItems: 'center', justifyContent: 'center',
-    gap: '10px', marginTop: '10px'
+    backgroundColor: '#7CFFB2', color: '#000', border: '1px solid #A7B1B7', padding: '10px',
+    borderRadius: '20px', cursor: 'pointer', fontWeight: 'bold', display: 'flex', alignItems: 'center',
+    justifyContent: 'center', gap: '10px', marginTop: '10px'
 };
 const inputStyle = {
     padding: '10px', border: `1px solid ${colors.inputBorder}`, borderRadius: '10px', backgroundColor: colors.inputBg,
@@ -184,6 +189,11 @@ const modalButtonsStyle = { display: 'flex', justifyContent: 'center', gap: '15p
 const btnAceptarStyle = {
     padding: '10px 20px', borderRadius: '10px', border: '1px solid #A7B1B7', backgroundColor: '#FFFFFF',
     cursor: 'pointer'
+};
+const btnCancelarStyle = {
+    backgroundColor: '#A7B1B7', color: '#000', border: '1px solid #7CFFB2', padding: '10px',
+    borderRadius: '25px', cursor: 'pointer', fontWeight: 'bold', display: 'flex', alignItems: 'center',
+    justifyContent: 'center', gap: '10px', marginTop: '10px'
 };
 
 export default NewResena;
