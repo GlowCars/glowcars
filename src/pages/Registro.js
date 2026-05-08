@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Eye, EyeOff } from 'lucide-react';
+import { Eye, EyeOff, CircleAlert } from 'lucide-react';
 import Header from '../common/header.js'
 import Footer from '../common/footer.js';
 import cliente from '../images/cliente.jpg';
@@ -63,7 +63,7 @@ const Registro = () => {
                 const modelo = registroCompleto.vehiculo.modelo;
                 const anio = registroCompleto.vehiculo.anio;
                 const bastidor = registroCompleto.vehiculo.bastidor;
-               await axios.post(urlCreateCar, { id_new_user, matricula, marca, modelo, anio, bastidor });
+                await axios.post(urlCreateCar, { id_new_user, matricula, marca, modelo, anio, bastidor });
                 // Llamamos al servicio login para loguerse en la app automaticamente
                 const url = 'http://localhost:5000/login';
                 const respuesta = await axios.post(url, { email, password });
@@ -196,7 +196,8 @@ const Registro = () => {
             {showModal && (
                 <div style={modalOverlayStyle}>
                     <div style={modalContentStyle}>
-                        <h3 style={{ color: '#1A1A1A' }}>ALERTA</h3>
+                        <CircleAlert size={50} color="#eeea12" style={{ marginBottom: '10px' }} />
+                        <h3 style={{ color: '#1A1A1A' }}>¡ALERTA!</h3>
                         <p>El email ya existe en nuestra base de datos. Por favor, introduzca otro email.</p>
                         <div style={modalButtonsStyle}>
                             <button
@@ -252,7 +253,7 @@ const modalOverlayStyle = {
 };
 const modalContentStyle = {
     backgroundColor: 'white', padding: '30px', borderRadius: '15px', width: '90%', maxWidth: '400px',
-    textAlign: 'center', boxShadow: '0 4px 15px rgba(0,0,0,0.2)'
+    textAlign: 'center', boxShadow: '0 4px 15px rgba(0,0,0,0.2)', fontSize: '1.0rem', fontFamily: 'Poppins'
 };
 const btnAceptarStyle = {
     padding: '10px 20px', borderRadius: '10px', border: '1px solid #A7B1B7', backgroundColor: '#7CFFB2',
